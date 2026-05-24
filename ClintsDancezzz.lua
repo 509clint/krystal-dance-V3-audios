@@ -772,79 +772,122 @@ if setclipboard then setclipboard(discordLink) end
 
 local TweenService = game:GetService("TweenService")
 
--- MOBILE FLOATING REANIMATE BUTTON (iOS TOUCH FEEDBACK)
+--// reanimate script :D
+local lp = game:GetService("Players").LocalPlayer
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 
-local mobileGui = lp.PlayerGui:WaitForChild("DanceMobileUI")
-local mainFrame = mobileGui:FindFirstChildOfClass("Frame")
+-- 1. EXECUTOR-PROOF PERSISTENCE
+local env = (getgenv and getgenv()) or _G
+env.ReanimateCooldown = env.ReanimateCooldown or 0
 
-local reanimateBtn = Instance.new("TextButton")
-reanimateBtn.Size = UDim2.new(0, 170, 0, 35)
+-- 2. BUTTON GENERATOR FUNCTION
+local function setupReanimateButton()
+    -- Wait a moment to ensure the UI has loaded into the new life
+    local mobileGui = lp:WaitForChild("PlayerGui"):WaitForChild("DanceMobileUI", 5)
+    if not mobileGui then return end
+    
+    local mainFrame = mobileGui:FindFirstChildOfClass("Frame")
+    if not mainFrame then return end
 
-reanimateBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
-reanimateBtn.TextColor3 = Color3.new(1,1,1)
-reanimateBtn.Text = "Reanimate"
-reanimateBtn.TextScaled = true
-reanimateBtn.Font = Enum.Font.GothamBold
-
-reanimateBtn.AnchorPoint = Vector2.new(0.5, 1)
-reanimateBtn.Parent = mobileGui
-reanimateBtn.ZIndex = 10
-
-local mobileCorner = Instance.new("UICorner")
-mobileCorner.CornerRadius = UDim.new(0,10)
-mobileCorner.Parent = reanimateBtn
-
--- smooth follow + float above UI
-RunService.RenderStepped:Connect(function()
-    if mainFrame and mainFrame.Parent then
-        local pos = mainFrame.AbsolutePosition
-        local size = mainFrame.AbsoluteSize
-
-        reanimateBtn.Position = UDim2.new(
-            0,
-            pos.X + (size.X / 2),
-            0,
-            pos.Y - 10
-        )
+    -- STRICT ANTI-DUPLICATE CHECK: If the button already exists from an old run, stop immediately!
+    if mobileGui:FindFirstChild("Reanimate") then
+        return
     end
-end)
 
--- iOS-style press animation
-local normalSize = reanimateBtn.Size
-local pressedSize = UDim2.new(
-    normalSize.X.Scale,
-    normalSize.X.Offset - 6,
-    normalSize.Y.Scale,
-    normalSize.Y.Offset - 3
-)
-
-local tweenInfoDown = TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-local tweenInfoUp = TweenInfo.new(0.12, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-
-local function tweenSize(size, info)
-    TweenService:Create(reanimateBtn, info, {Size = size}):Play()
-end
-
-reanimateBtn.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1
-    or input.UserInputType == Enum.UserInputType.Touch then
-        tweenSize(pressedSize, tweenInfoDown)
+    -- Cooldown Check: Compare current real-world time to the cooldown timestamp
+    if os.time() < env.ReanimateCooldown then
+        warn("Reanimate button blocked: 10-second cooldown is still active.")
+        return
     end
-end)
 
-reanimateBtn.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1
-    or input.UserInputType == Enum.UserInputType.Touch then
-        tweenSize(normalSize, tweenInfoUp)
-    end
-end)
+    -- Create Button
+    local reanimateBtn = Instance.new("TextButton")
+    reanimateBtn.Name = "Reanimate" -- Named explicitly so we can track and find it
+    reanimateBtn.Size = UDim2.new(0, 170, 0, 35)
+    reanimateBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
+    reanimateBtn.TextColor3 = Color3.new(1,1,1)
+    reanimateBtn.Text = "Reanimate"
+    reanimateBtn.TextScaled = true
+    reanimateBtn.Font = Enum.Font.GothamBold
+    reanimateBtn.AnchorPoint = Vector2.new(0.5, 1)
+    reanimateBtn.Parent = mobileGui
+    reanimateBtn.ZIndex = 10
 
-reanimateBtn.MouseButton1Click:Connect(function()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/reanimation.lua"))()
+    local mobileCorner = Instance.new("UICorner")
+    mobileCorner.CornerRadius = UDim.new(0,10)
+    mobileCorner.Parent = reanimateBtn
+
+    -- Smooth follow behavior
+    local renderConnection
+    renderConnection = RunService.RenderStepped:Connect(function()
+        if mainFrame and mainFrame.Parent and reanimateBtn and reanimateBtn.Parent then
+            local pos = mainFrame.AbsolutePosition
+            local size = mainFrame.AbsoluteSize
+            reanimateBtn.Position = UDim2.new(0, pos.X + (size.X / 2), 0, pos.Y - 10)
+        else
+            if renderConnection then renderConnection:Disconnect() end
+        end
     end)
 
-    if not success then
-        warn("Reanimate failed:", err)
+    -- iOS-style press animations
+    local normalSize = reanimateBtn.Size
+    local pressedSize = UDim2.new(normalSize.X.Scale, normalSize.X.Offset - 6, normalSize.Y.Scale, normalSize.Y.Offset - 3)
+    local tweenInfoDown = TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local tweenInfoUp = TweenInfo.new(0.12, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+
+    local function tweenSize(size, info)
+        if reanimateBtn and reanimateBtn.Parent then
+            TweenService:Create(reanimateBtn, info, {Size = size}):Play()
+        end
     end
+
+    reanimateBtn.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            tweenSize(pressedSize, tweenInfoDown)
+        end
+    end)
+
+    reanimateBtn.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            tweenSize(normalSize, tweenInfoUp)
+        end
+    end)
+
+    -- Execution
+    reanimateBtn.MouseButton1Click:Connect(function()
+        -- Final safety check
+        if os.time() < env.ReanimateCooldown then return end
+
+        -- Set the cooldown timer to 10 seconds into the future
+        env.ReanimateCooldown = os.time() + 10
+
+        -- Destroy button immediately
+        reanimateBtn:Destroy()
+
+        -- Run payload
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/reanimation.lua"))()
+        end)
+
+        if not success then
+            warn("Reanimate failed:", err)
+        end
+    end)
+end
+
+-- 3. AUTO-RESPAWN MANAGER
+-- Clear any old connections so it doesn't double-fire if you re-execute the script
+if env.RespawnConnection then
+    env.RespawnConnection:Disconnect()
+end
+
+-- Hook into character spawns so the script tracks your lives automatically
+env.RespawnConnection = lp.CharacterAdded:Connect(function()
+    task.wait(0.5) -- Give the game a half-second to fully build your UI
+    setupReanimateButton()
 end)
+
+-- 4. INITIALIZE
+-- Run it right now for the life you are currently on
+setupReanimateButton()
