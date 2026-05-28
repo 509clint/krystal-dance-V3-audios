@@ -36,7 +36,7 @@ screenGui.Parent = playerGui
 --// Main Window Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 340, 0, 440) 
+mainFrame.Size = UDim2.new(0, 260, 0, 320)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
@@ -55,7 +55,7 @@ headerTitle.BackgroundTransparency = 1
 headerTitle.Text = "Welcome to Clints Dancezzz!"
 headerTitle.TextColor3 = Color3.new(1, 1, 1)
 headerTitle.Font = Enum.Font.GothamBold
-headerTitle.TextSize = 24
+headerTitle.TextSize = 18
 headerTitle.Parent = mainFrame
 
 --// Divider Line below Header
@@ -70,7 +70,7 @@ headerDivider.Parent = mainFrame
 --// Scrolling Content Container
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Name = "LogScroller"
-scrollFrame.Size = UDim2.new(1, -24, 1, -135)
+scrollFrame.Size = UDim2.new(1, -18, 1, -120)
 scrollFrame.Position = UDim2.new(0, 12, 0, 65)
 scrollFrame.BackgroundTransparency = 1
 scrollFrame.BorderSizePixel = 0
@@ -143,7 +143,7 @@ closeButton.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
 closeButton.Text = "Close"
 closeButton.TextColor3 = Color3.new(1, 1, 1)
 closeButton.Font = Enum.Font.GothamBold
-closeButton.TextSize = 22
+closeButton.TextSize = 18
 closeButton.AutoButtonColor = false
 closeButton.Parent = mainFrame
 
