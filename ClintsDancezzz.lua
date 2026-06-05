@@ -8,13 +8,13 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Added Slickback"
+            "Added Current Angle reanimation for Xeno [client sidded]"
         }
     },
     {
         date = "Previous Update",
         items = {
-            "Added AVGN Dance [or kiwik flip ig]"
+            "Added Slickback"
         }
     },
     {
@@ -586,7 +586,7 @@ task.spawn(function()
 end)
 
 -- Motor Frame Locker
-scriptRun.Stepped:Connect(function(currentTime, deltaTime)
+scriptRun.RenderStepped:Connect(function(deltaTime)
     local char = localPlayer and localPlayer.Character
     if not char or not char.Parent then return end
     
