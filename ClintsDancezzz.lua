@@ -8,13 +8,13 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Added Current Angle reanimation for Xeno [client sidded]"
+            "Bug Fixes"
         }
     },
     {
         date = "Previous Update",
         items = {
-            "Added Slickback"
+            "Added AVGN Dance [or kiwik flip ig]"
         }
     },
     {
@@ -586,7 +586,7 @@ task.spawn(function()
 end)
 
 -- Motor Frame Locker
-scriptRun.RenderStepped:Connect(function(deltaTime)
+scriptRun.Stepped:Connect(function(currentTime, deltaTime)
     local char = localPlayer and localPlayer.Character
     if not char or not char.Parent then return end
     
@@ -1059,15 +1059,15 @@ local function setupReanimateButton()
         -- Final safety check
         if os.time() < env.ReanimateCooldown then return end
 
-        -- Set the cooldown timer to 10 seconds into the future
-        env.ReanimateCooldown = os.time() + 10
+        -- Set the cooldown timer to 2 seconds into the future
+        env.ReanimateCooldown = os.time() + 2
 
         -- Destroy button immediately
         reanimateBtn:Destroy()
 
         -- Run payload
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/reanimation.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/refs/heads/main/reanimation.lua"))()
         end)
 
         if not success then
