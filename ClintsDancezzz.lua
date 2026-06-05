@@ -8,7 +8,8 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Added Current Angle reanimation for Xeno [client sidded]"
+            "Fixed Doodle and Assumptions audio links"
+			"Added Current Angle reanimation for Xeno [removed cuz of fucking xeno]"
         }
     },
     {
@@ -36,7 +37,7 @@ screenGui.Parent = playerGui
 --// Main Window Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 260, 0, 320)
+mainFrame.Size = UDim2.new(0, 260, 0, 420)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
