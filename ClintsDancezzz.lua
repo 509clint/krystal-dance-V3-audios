@@ -8,13 +8,13 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Bug Fixes"
+            "Added Current Angle reanimation for Xeno [client sidded]"
         }
     },
     {
         date = "Previous Update",
         items = {
-            "Added AVGN Dance [or kiwik flip ig]"
+            "Added Slickback"
         }
     },
     {
@@ -251,9 +251,9 @@ local page1Dances = {
         }
     },
     E = {name = "Boogie Down", musicName = "Boogie", id = "rbxassetid://115461522815450", file = "boogiedown.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/boogie.mp3", playbackSpeed = 2.0},
-    R = {name = "Assumptions", musicName = "Assumptions", id = "rbxassetid://86800672185924", file = "assumptions.mp3", url = "https://raw.githubusercontent.com/Solary-3/Scripts/refs/heads/main/Assumptions.lua"},
+    R = {name = "Assumptions", musicName = "Assumptions", id = "rbxassetid://86800672185924", file = "assumptions.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assumptions.mp3"},
     T = {name = "Lonely", musicName = "Lonely", id = "rbxassetid://122147154162464", file = "Lonely.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Lonely.mp3"},
-    Y = {name = "Doodle", musicName = "Doodle", id = "rbxassetid://93191191685066", file = "doodle.mp3", url = "https://raw.githubusercontent.com/Solary-3/Scripts/refs/heads/main/Doodle.lua"},
+    Y = {name = "Doodle", musicName = "Doodle", id = "rbxassetid://93191191685066", file = "doodle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/doodle.mp3"},
     U = {name = "Carmell", musicName = "Caramelldansen", id = "rbxassetid://92900132509399", file = "carmell.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/caramell.mp3"},
     P = {name = "Gangnam Style", musicName = "Gangnam Style", id = "rbxassetid://116468071022853", file = "gangnamstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnamm.mp3"},
     F = {name = "Jumpstyle", musicName = "FALL FROM THE SKY PT2", id = "rbxassetid://85528043259864", file = "jumpstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Jumpstyle.mp3"},
@@ -586,7 +586,7 @@ task.spawn(function()
 end)
 
 -- Motor Frame Locker
-scriptRun.Stepped:Connect(function(currentTime, deltaTime)
+scriptRun.RenderStepped:Connect(function(deltaTime)
     local char = localPlayer and localPlayer.Character
     if not char or not char.Parent then return end
     
@@ -1059,15 +1059,15 @@ local function setupReanimateButton()
         -- Final safety check
         if os.time() < env.ReanimateCooldown then return end
 
-        -- Set the cooldown timer to 2 seconds into the future
-        env.ReanimateCooldown = os.time() + 2
+        -- Set the cooldown timer to 10 seconds into the future
+        env.ReanimateCooldown = os.time() + 10
 
         -- Destroy button immediately
         reanimateBtn:Destroy()
 
         -- Run payload
         local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/refs/heads/main/reanimation.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/reanimation.lua"))()
         end)
 
         if not success then
