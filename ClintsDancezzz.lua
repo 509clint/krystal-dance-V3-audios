@@ -9,7 +9,6 @@ local changeLogData = {
         date = "Current Version",
         items = {
             "Fixed Doodle and Assumptions audio links"
-			"Added Current Angle reanimation for Xeno [removed cuz of fucking xeno]"
         }
     },
     {
