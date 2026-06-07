@@ -8,7 +8,7 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Fixed Doodle and Assumptions audio links"
+            "Adjusted Changelog GUI Size"
         }
     },
     {
@@ -36,7 +36,7 @@ screenGui.Parent = playerGui
 --// Main Window Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 260, 0, 420)
+mainFrame.Size = UDim2.new(0, 460, 0, 320)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
