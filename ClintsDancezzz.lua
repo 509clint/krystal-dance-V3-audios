@@ -8,13 +8,13 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Adjusted Changelog GUI Size"
+            "Added Camera following"
         }
     },
     {
         date = "Previous Update",
         items = {
-            "Added Slickback"
+            "Adjusted Changelog GUI Size"
         }
     },
     {
@@ -236,6 +236,73 @@ local StarterGui = game:GetService("StarterGui")
 local RunService = game:GetService("RunService")
 local lp = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
+
+local cameraFollowEnabled = true
+local cameraSmoothness = 0.01 -- lower = faster, higher = smoother
+
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local smoothPos
+
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local smoothPos
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local smoothHeadPos
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local lastHeadPos
+local lastRootPos
+local cameraOffset = Vector3.zero
+
+RunService.RenderStepped:Connect(function(dt)
+    local character = player.Character
+    if not character then return end
+
+    local head = character:FindFirstChild("Head")
+    local root = character:FindFirstChild("HumanoidRootPart")
+
+    if not head or not root then return end
+
+    if not lastHeadPos then
+        lastHeadPos = head.Position
+        lastRootPos = root.Position
+        return
+    end
+
+    local headDelta = head.Position - lastHeadPos
+    local rootDelta = root.Position - lastRootPos
+
+    lastHeadPos = head.Position
+    lastRootPos = root.Position
+
+    -- Remove character movement from head movement
+    local delta = headDelta - rootDelta
+
+    cameraOffset += delta
+    cameraOffset = cameraOffset:Lerp(Vector3.zero, dt * 10)
+
+    camera.CFrame += cameraOffset
+end)
 
 local bgMusicUrl = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/CreoSphere.mp3"
 local bgMusicFile = "CreoSphere.mp3"
