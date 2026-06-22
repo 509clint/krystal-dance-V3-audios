@@ -261,7 +261,7 @@ local page1Dances = {
     H = {name = "Monster Mash", musicName = "Monster Mash", id = "rbxassetid://107864975312860", file = "monstermash.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/monstermash.mp3"},
     J = {name = "Bang Bang Bang", musicName = "Bang Bang Bang", id = "rbxassetid://108637462377816", file = "bangbangbang.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/bangbangbang.MP3"},
     K = {name = "Criss Cross", musicName = "Criss Cross", id = "rbxassetid://119524559800928", file = "CrissCross.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/CrissCross.mp3"},
-    L = {name = "Lux", musicName = "Lux", id = "rbxassetid://92542318728589", file = "Lux.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Lux.mp3"},
+    L = {name = "luxorious", musicName = "e", id = "rbxassetid://92542318728589", file = "Lux.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Lux.mp3"},
     Z = {name = "Headlock", musicName = "Headlock", id = "rbxassetid://125201240575195", file = "headlock.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/headlock.MP3"},
     X = {name = "Egypt", musicName = "Prince Of Egypt", id = "rbxassetid://91860601534533", file = "Egypt.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Egypt.mp3"},
     C = {name = "Mannrobics", musicName = "Mannrobics", id = "rbxassetid://96207177690619", file = "trolled.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/trolled.mp3"},
@@ -593,11 +593,6 @@ scriptRun.RenderStepped:Connect(function(deltaTime)
     local humanoid = char:FindFirstChildOfClass("Humanoid")
     if not humanoid or humanoid.Health <= 0 then return end
 
-    local shouldUpdate = false
-    if currentTime - lastUpdateTime >= updateInterval then
-        shouldUpdate = true
-        lastUpdateTime = currentTime
-    end
 
     for _, desc in ipairs(char:GetDescendants()) do
         if desc:IsA("Motor6D") then
