@@ -1310,12 +1310,3 @@ end)
 desyncBtn.MouseButton1Click:Connect(function()
     stopSyncing()
 end)
-
-lp.CharacterAdded:Connect(function(newCharacter)
-    local humanoid = newCharacter:WaitForChild("Humanoid")
-    humanoid.StateChanged:Connect(function(_, state)
-        if state == Enum.HumanoidStateType.Jumping or state == Enum.HumanoidStateType.Freefall then
-            stopSyncing()
-        end
-    end)
-end)
