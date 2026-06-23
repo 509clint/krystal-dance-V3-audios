@@ -237,71 +237,43 @@ local RunService = game:GetService("RunService")
 local lp = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
-local cameraFollowEnabled = true
-local cameraSmoothness = 0.01 -- lower = faster, higher = smoother
-
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 
 local player = Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
-local smoothPos
+local character
+local humanoid
+local head
+local rootPart
 
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
+local function setupCharacter(char)
+	character = char
+	humanoid = character:WaitForChild("Humanoid")
+	head = character:WaitForChild("Head")
+	rootPart = character:WaitForChild("HumanoidRootPart")
 
-local player = Players.LocalPlayer
-local camera = workspace.CurrentCamera
+	camera.CameraSubject = humanoid
+end
 
-local smoothPos
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local player = Players.LocalPlayer
-local camera = workspace.CurrentCamera
-
-local smoothHeadPos
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local player = Players.LocalPlayer
-local camera = workspace.CurrentCamera
-
-local lastHeadPos
-local lastRootPos
-local cameraOffset = Vector3.zero
+setupCharacter(player.Character or player.CharacterAdded:Wait())
+player.CharacterAdded:Connect(setupCharacter)
 
 RunService.RenderStepped:Connect(function(dt)
-    local character = player.Character
-    if not character then return end
+	if not character or not humanoid or not head then
+		return
+	end
 
-    local head = character:FindFirstChild("Head")
-    local root = character:FindFirstChild("HumanoidRootPart")
+	if humanoid.Health <= 0 then
+		return
+	end
 
-    if not head or not root then return end
+	local targetOffset = rootPart.CFrame:PointToObjectSpace(head.Position)
+	targetOffset = targetOffset + Vector3.new(0, -1.5, 0)
+	local alpha = math.clamp(dt * 12, 0, 1)
 
-    if not lastHeadPos then
-        lastHeadPos = head.Position
-        lastRootPos = root.Position
-        return
-    end
-
-    local headDelta = head.Position - lastHeadPos
-    local rootDelta = root.Position - lastRootPos
-
-    lastHeadPos = head.Position
-    lastRootPos = root.Position
-
-    -- Remove character movement from head movement
-    local delta = headDelta - rootDelta
-
-    cameraOffset += delta
-    cameraOffset = cameraOffset:Lerp(Vector3.zero, dt * 10)
-
-    camera.CFrame += cameraOffset
+	humanoid.CameraOffset = humanoid.CameraOffset:Lerp(targetOffset, alpha)
 end)
 
 local bgMusicUrl = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/CreoSphere.mp3"
