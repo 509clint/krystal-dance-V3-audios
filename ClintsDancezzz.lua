@@ -8,13 +8,13 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Added Camera following"
+            "Adjusted Changelog GUI Size"
         }
     },
     {
         date = "Previous Update",
         items = {
-            "Adjusted Changelog GUI Size"
+            "Added Slickback"
         }
     },
     {
@@ -341,7 +341,7 @@ local page2Dances = {
     Q = {name = "Kai Cenat and Speed Jumping", musicName = "Speed Jumping", id = "rbxassetid://94039662497944", file = "speedjumping.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/speedjumping.mp3"},
     E = {name = "Default", musicName = "Default Dance / Dance Moves", id = "rbxassetid://99818263438846", file = "default.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/default.mp3"},
     R = {name = "Smug", musicName = "Smug", id = "rbxassetid://73509049289746", file = "Smug.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Smug.mp3"},
-    T = {name = "Rat Dance 2", id = "rbxassetid://89132118681685", animSpeed = 1.4, isRandom = true, audios = {{name = "Chess Type Beat", file = "ratdance.mp3", url = "https://raw.githubusercontent.com/HarcangiRobloxProjects/Songsformusicplayer/main/Chess%20Type%20Beat%20_%20joyful%20-%20chess%20(slowed).mp3"}, {name = "Matchmaker", file = "matchmaker.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/matchmaker.mp3"}}},
+    T = {name = "Rat Dance 2", id = "rbxassetid://89132118681685", animSpeed = 1.6, isRandom = true, audios = {{name = "Chess Type Beat", file = "ratdance.mp3", url = "https://raw.githubusercontent.com/HarcangiRobloxProjects/Songsformusicplayer/main/Chess%20Type%20Beat%20_%20joyful%20-%20chess%20(slowed).mp3"}, {name = "Matchmaker", file = "matchmaker.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/matchmaker.mp3"}}},
     Y = {name = "DoD Gangnam Style", musicName = "Gangnam Style [Die of death]", id = "rbxassetid://118329687900633", file = "DODstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/DODstyle.mp3"},
     U = {name = "Goopie", musicName = "Goopie", id = "rbxassetid://122558944580591", file = "Goopie.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Goopie.mp3"},
     P = {name = "Sponge Shuffle", musicName = "Sponge Shuffle", id = "rbxassetid://107899954696611", file = "spongeshuffle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/spongeshuffle.mp3"},
@@ -382,7 +382,7 @@ local page3Dances = {
 }
 
 local page4Dances = {
-    Q = {name = "Kiwik Flip", musicName = "Kiwik Flip", id = "rbxassetid://99465534523204", file = "kiwikflip.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/kiwikflip.MP3"},
+    Q = {name = "Kiwik Flip", musicName = "Kiwik Flip", id = "rbxassetid://78225140245993", animSpeed = 1.38, file = "kiwikflip.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/kiwikflip.MP3"},
 	E = {name = "Slickback", musicName = "Slickback", id = "rbxassetid://103789826265487", file = "Slickback.mp3", url = "https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/Slickback.mp3"}
 }
 
