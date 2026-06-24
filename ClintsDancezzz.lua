@@ -55,7 +55,7 @@ headerTitle.BackgroundTransparency = 1
 headerTitle.Text = "HEADS UP: miku my internet disonected me add me my username is passhihihi_456"
 headerTitle.TextColor3 = Color3.new(1, 1, 1)
 headerTitle.Font = Enum.Font.GothamBold
-headerTitle.TextSize = 6
+headerTitle.TextSize = 10
 headerTitle.Parent = mainFrame
 
 --// Divider Line below Header
