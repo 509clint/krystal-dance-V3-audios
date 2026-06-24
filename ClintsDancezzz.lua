@@ -337,7 +337,7 @@ local page3Dances = {
     R = {name = "Torture Dance", musicName = "Torture Dance", id = "rbxassetid://76119197893969", file = "TortureDance.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/TortureDance.mp3"},
     T = {name = "Low Cortisol", musicName = "Low Cortisol", id = "rbxassetid://88446038474334", file = "LowCortisol.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/LowCortisol.mp3"},
     Y = {name = "Tenna", musicName = "Tenna", id = "rbxassetid://118637631357001", file = "Tenna.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Tenna.mp3", animSpeed = 2},
-    U = {name = "Miss Me", musicName = "Miss Me", id = "rbxassetid://122857682307879", file = "MissMe.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/MissMe.mp3"},
+    U = {name = "Miss Me", musicName = "Miss Me", id = "rbxassetid://102114333368524", file = "MissMe.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/MissMe.mp3"},
     P = {name = "Headlock", musicName = "Headlock", id = "rbxassetid://121475803084040", file = "Headlock2.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Headlock2.mp3"},
     F = {name = "Sit", musicName = "Sit", id = "rbxassetid://86588737455577", file = "sit.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/sit.mp3"},
     G = {name = "Boombox", musicName = "Boombox", id = "rbxassetid://100233037365988", file = "boomin.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/boomin.mp3"},
@@ -355,7 +355,8 @@ local page3Dances = {
 
 local page4Dances = {
     Q = {name = "Kiwik Flip", musicName = "Kiwik Flip", id = "rbxassetid://78225140245993", animSpeed = 1.38, file = "kiwikflip.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/kiwikflip.MP3"},
-	E = {name = "Slickback", musicName = "Slickback", id = "rbxassetid://103789826265487", file = "Slickback.mp3", url = "https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/Slickback.mp3"}
+	E = {name = "Slickback", musicName = "Slickback", id = "rbxassetid://103789826265487", file = "Slickback.mp3", url = "https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/Slickback.mp3"},
+    R = {name = "Bille Jean", musicName = "Billie Jean", id = "rbxassetid://79081741493045", file = "Bjean.mp3", url = "https://github.com/Solary-3/Scripts/raw/refs/heads/Audios-1/Bjean.mp3"}
 }
 
 local currentTrack, currentSound, backgroundSound = nil, nil, nil
