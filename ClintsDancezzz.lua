@@ -8,7 +8,7 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Adjusted Changelog GUI Size"
+            "Adjusted Changelog GUI Siz"
         }
     },
     {
@@ -52,10 +52,10 @@ local headerTitle = Instance.new("TextLabel")
 headerTitle.Name = "HeaderTitle"
 headerTitle.Size = UDim2.new(1, 0, 0, 55)
 headerTitle.BackgroundTransparency = 1
-headerTitle.Text = "Welcome to Clints Dancezzz!"
+headerTitle.Text = "HEADS UP: miku my internet disonected me add me my username is passhihihi_456"
 headerTitle.TextColor3 = Color3.new(1, 1, 1)
 headerTitle.Font = Enum.Font.GothamBold
-headerTitle.TextSize = 18
+headerTitle.TextSize = 6
 headerTitle.Parent = mainFrame
 
 --// Divider Line below Header
