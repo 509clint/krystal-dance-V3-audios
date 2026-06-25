@@ -2,7 +2,7 @@ local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Window = Rayfield:CreateWindow({
     Name = "FEARLESS BYPASS CRACKED BY CLINT",
-    LoadingTitle = "fuck yeahhhh",
+    LoadingTitle = "fuck fearless",
     LoadingSubtitle = "dont skid this btw",
     ConfigurationSaving = {
         Enabled = false
@@ -20,7 +20,7 @@ local convertMap = {
 	d="Ԁ",
 	e="ɐ",
 	f="f",
-	g="g",
+	g="ဌ",
 	h="lา",
 	i="ị",
 	j="ɉ",
@@ -102,7 +102,7 @@ Tab:CreateButton({
         local converted = transform(InputText)
 
         if setclipboard then
-            setclipboard(converted)
+            setclipboard(Output)
             Rayfield:Notify({
                 Title = "u might get banned lowkey",
                 Content = converted,
