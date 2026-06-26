@@ -3,7 +3,6 @@ local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
---// Updated Data Structure with Your Script's Features & Bug Fixes
 local changeLogData = {
     {
         date = "Current Version",
@@ -33,7 +32,6 @@ screenGui.Name = "ChangeLogGui"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 
---// Main Window Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
 mainFrame.Size = UDim2.new(0, 460, 0, 320)
@@ -47,7 +45,6 @@ local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 12)
 mainCorner.Parent = mainFrame
 
---// Header Title
 local headerTitle = Instance.new("TextLabel")
 headerTitle.Name = "HeaderTitle"
 headerTitle.Size = UDim2.new(1, 0, 0, 55)
@@ -58,7 +55,6 @@ headerTitle.Font = Enum.Font.GothamBold
 headerTitle.TextSize = 10
 headerTitle.Parent = mainFrame
 
---// Divider Line below Header
 local headerDivider = Instance.new("Frame")
 headerDivider.Name = "Divider"
 headerDivider.Size = UDim2.new(1, 0, 0, 1)
@@ -67,7 +63,6 @@ headerDivider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 headerDivider.BorderSizePixel = 0
 headerDivider.Parent = mainFrame
 
---// Scrolling Content Container
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Name = "LogScroller"
 scrollFrame.Size = UDim2.new(1, -18, 1, -120)
@@ -88,7 +83,6 @@ listLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     scrollFrame.CanvasSize = UDim2.new(0, 0, 0, listLayout.AbsoluteContentSize.Y + 10)
 end)
 
---// Dynamic Entry Generator
 for i, logData in ipairs(changeLogData) do
     local entryFrame = Instance.new("Frame")
     entryFrame.Name = "Entry_" .. i
@@ -105,7 +99,6 @@ for i, logData in ipairs(changeLogData) do
         entryFrame.Size = UDim2.new(1, -10, 0, entryLayout.AbsoluteContentSize.Y)
     end)
 
-    -- Date/Version Label
     local dateLabel = Instance.new("TextLabel")
     dateLabel.Name = "Date"
     dateLabel.Size = UDim2.new(1, 0, 0, 26)
@@ -118,7 +111,6 @@ for i, logData in ipairs(changeLogData) do
     dateLabel.LayoutOrder = 1
     dateLabel.Parent = entryFrame
 
-    -- Bullets Generation
     for j, itemText in ipairs(logData.items) do
         local bulletLabel = Instance.new("TextLabel")
         bulletLabel.Name = "Bullet_" .. j
@@ -134,7 +126,6 @@ for i, logData in ipairs(changeLogData) do
     end
 end
 
---// Close Button Layout
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.Size = UDim2.new(1, -24, 0, 45)
@@ -151,7 +142,6 @@ local buttonCorner = Instance.new("UICorner")
 buttonCorner.CornerRadius = UDim.new(0, 10)
 buttonCorner.Parent = closeButton
 
---// iOS Style Click Animations
 local normalSize = closeButton.Size
 local pressedSize = UDim2.new(normalSize.X.Scale, normalSize.X.Offset - 6, normalSize.Y.Scale, normalSize.Y.Offset - 3)
 
@@ -170,7 +160,6 @@ closeButton.InputEnded:Connect(function(input)
     end
 end)
 
---// HOLD VARIABLE & CLOSE CONNECTION
 local guiIsActive = true
 
 closeButton.MouseButton1Click:Connect(function()
@@ -182,13 +171,10 @@ closeButton.MouseButton1Click:Connect(function()
     closeTween:Play()
     closeTween.Completed:Connect(function()
         screenGui:Destroy()
-        guiIsActive = false -- Breaks the execution hold block below
+        guiIsActive = false
     end)
 end)
 
---// THE EXECUTION BLOCKER
--- This strictly halts any code typed underneath this script block from executing 
--- until 'guiIsActive' gets flipped to false by the close button animation.
 while guiIsActive do
     task.wait(0.1)
 end
@@ -200,7 +186,6 @@ task.spawn(function()
             local character = player.Character or player.CharacterAdded:Wait()
             local animate = character:FindFirstChild("Animate")
             if animate then
-                -- Apply the custom Animation IDs
                 animate.climb.ClimbAnim.AnimationId = "rbxassetid://119545916455209"
                 animate.fall.FallAnim.AnimationId   = "rbxassetid://119545916455209"
                 animate.idle.Animation1.AnimationId = "rbxassetid://98946450554814"
@@ -370,7 +355,7 @@ RunService.RenderStepped:Connect(function()
     local targetFOV = baseFOV
     if isPlaying and currentSound then
         local loudness = currentSound.PlaybackLoudness
-        local kick = (loudness / 100) * 1.5 -- Adjust 1.5 to make it kick harder
+        local kick = (loudness / 100) * 1.5
         targetFOV = baseFOV - kick
     end
 
@@ -501,26 +486,19 @@ local UserInputService = game:GetService("UserInputService")
 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
     if input.KeyCode == Enum.KeyCode.F3 then
-        -- Update the tracking variable so the background loop knows dance music is off
         isDancing = false
-        -- Stop all active dance music tracks
         if StopAllDanceMusic then 
             StopAllDanceMusic() 
         end
-        -- Play your ambient background music
         if PlayBackgroundMusic then 
             PlayBackgroundMusic() 
         end
     end
 end)
 
-
--- [[ PASTE THIS AT THE VERY BOTTOM OF YOUR SCRIPT ]]
-
 local scriptUIS = game:GetService("UserInputService")
 local scriptRun = game:GetService("RunService")
 local scriptPlayers = game:GetService("Players")
-
 
 local localPlayer = scriptPlayers.LocalPlayer
 while not localPlayer do
@@ -536,14 +514,12 @@ local updateInterval = 1 / targetFPS
 local lastUpdateTime = 0
 local frozenTransforms = {}
 
--- A dictionary containing every key that is allowed to cancel the stop motion
 local danceKeys = {
     Q = true, E = true, R = true, T = true, Y = true, U = true, P = true,
     F = true, G = true, H = true, J = true, K = true, L = true,
     Z = true, X = true, C = true, V = true, B = true, N = true
 }
 
--- Create the invisible button overlay (top right)
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "StopMotionOverlayGui"
 screenGui.ResetOnSpawn = false
@@ -570,19 +546,16 @@ local function setStopMotion(enabled, fpsOverride)
     end
 end
 
--- Track click timestamps
 toggleButton.MouseButton1Click:Connect(function()
     lastKeyPressedTime = os.clock()
 end)
 
--- Handle input changes and strict key filtering
 scriptUIS.InputBegan:Connect(function(input, processed)
     if processed then return end
     
     local keyCode = input.KeyCode
     local keyName = keyCode.Name
     
-    -- Activation conditions grouped by page
     local isValidPage1Key = (currentPage == 1 and (keyCode == Enum.KeyCode.G or keyCode == Enum.KeyCode.V or keyCode == Enum.KeyCode.J))
     local isValidPage2Key = (currentPage == 2 and (keyCode == Enum.KeyCode.H or keyCode == Enum.KeyCode.L or keyCode == Enum.KeyCode.X or keyCode == Enum.KeyCode.Y))
     local isValidPage3Key = (currentPage == 3 and (keyCode == Enum.KeyCode.R or keyCode == Enum.KeyCode.U or keyCode == Enum.KeyCode.K or keyCode == Enum.KeyCode.V or keyCode == Enum.KeyCode.B or keyCode == Enum.KeyCode.N))
@@ -592,12 +565,10 @@ scriptUIS.InputBegan:Connect(function(input, processed)
         lastKeyPressedTime = os.clock()
         activeStopMotionKey = keyCode
     elseif isStopMotion and danceKeys[keyName] then
-        -- Stop motion ONLY cancels if the pressed key is explicitly a dance key string
         setStopMotion(false)
     end
 end)
 
--- 0.1 Second Status Scanner
 task.spawn(function()
     while true do
         task.wait(0.1)
@@ -608,7 +579,6 @@ task.spawn(function()
                 local timeSinceKey = os.clock() - lastKeyPressedTime
                 if timeSinceKey <= 0.5 and activeStopMotionKey then
                     if not isStopMotion then 
-                        -- Check if the specific 30 FPS key (N on page 3) triggered it
                         local chosenFPS = 10
                         if currentPage == 3 and activeStopMotionKey == Enum.KeyCode.N then
                             chosenFPS = 30
@@ -625,7 +595,6 @@ task.spawn(function()
     end
 end)
 
--- Motor Frame Locker
 scriptRun.RenderStepped:Connect(function(deltaTime)
     local char = localPlayer and localPlayer.Character
     if not char or not char.Parent then return end
@@ -646,8 +615,6 @@ scriptRun.RenderStepped:Connect(function(deltaTime)
         end
     end
 end)
-
---// PLATFORM CHOOSER
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -727,8 +694,6 @@ end)
 
 repeat task.wait() until selectedMode
 
---// MOBILE UI
-
 if selectedMode == "Mobile" then
 
 local dancePages = {
@@ -786,7 +751,6 @@ local dancePages = {
     grid.Parent = scrollingFrame
 
     local currentPageMobile = 1
---// DRAGGABLE UI
 
 local dragging = false
 local dragInput
@@ -836,8 +800,6 @@ UserInputService.InputChanged:Connect(function(input)
         )
     end
 end)
-
---// MOBILE STOP MOTION SUPPORT
 
 local mobileStopMotionDances = {
     ["Bacon Noob"] = true,
@@ -1007,38 +969,29 @@ if setclipboard then setclipboard(discordLink) end
 
 local TweenService = game:GetService("TweenService")
 
---// reanimate script :D
 local lp = game:GetService("Players").LocalPlayer
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
--- 1. EXECUTOR-PROOF PERSISTENCE
 local env = (getgenv and getgenv()) or _G
 env.ReanimateCooldown = env.ReanimateCooldown or 0
 
--- 2. BUTTON GENERATOR FUNCTION
 local function setupReanimateButton()
-    -- Wait a moment to ensure the UI has loaded into the new life
     local mobileGui = lp:WaitForChild("PlayerGui"):WaitForChild("DanceMobileUI", 5)
     if not mobileGui then return end
     
     local mainFrame = mobileGui:FindFirstChildOfClass("Frame")
     if not mainFrame then return end
-
-    -- STRICT ANTI-DUPLICATE CHECK: If the button already exists from an old run, stop immediately!
     if mobileGui:FindFirstChild("Reanimate") then
         return
     end
-
-    -- Cooldown Check: Compare current real-world time to the cooldown timestamp
     if os.time() < env.ReanimateCooldown then
         warn("Reanimate button blocked: 10-second cooldown is still active.")
         return
     end
 
-    -- Create Button
     local reanimateBtn = Instance.new("TextButton")
-    reanimateBtn.Name = "Reanimate" -- Named explicitly so we can track and find it
+    reanimateBtn.Name = "Reanimate"
     reanimateBtn.Size = UDim2.new(0, 170, 0, 35)
     reanimateBtn.BackgroundColor3 = Color3.fromRGB(35,35,35)
     reanimateBtn.TextColor3 = Color3.new(1,1,1)
@@ -1053,7 +1006,6 @@ local function setupReanimateButton()
     mobileCorner.CornerRadius = UDim.new(0,10)
     mobileCorner.Parent = reanimateBtn
 
-    -- Smooth follow behavior
     local renderConnection
     renderConnection = RunService.RenderStepped:Connect(function()
         if mainFrame and mainFrame.Parent and reanimateBtn and reanimateBtn.Parent then
@@ -1065,7 +1017,6 @@ local function setupReanimateButton()
         end
     end)
 
-    -- iOS-style press animations
     local normalSize = reanimateBtn.Size
     local pressedSize = UDim2.new(normalSize.X.Scale, normalSize.X.Offset - 6, normalSize.Y.Scale, normalSize.Y.Offset - 3)
     local tweenInfoDown = TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
@@ -1089,42 +1040,28 @@ local function setupReanimateButton()
         end
     end)
 
-    -- Execution
     reanimateBtn.MouseButton1Click:Connect(function()
-        -- Final safety check
         if os.time() < env.ReanimateCooldown then return end
-
-        -- Set the cooldown timer to 10 seconds into the future
         env.ReanimateCooldown = os.time() + 10
-
-        -- Destroy button immediately
         reanimateBtn:Destroy()
-
-        -- Run payload
         local success, err = pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/reanimation.lua"))()
         end)
-
         if not success then
             warn("Reanimate failed:", err)
         end
     end)
 end
 
--- 3. AUTO-RESPAWN MANAGER
--- Clear any old connections so it doesn't double-fire if you re-execute the script
 if env.RespawnConnection then
     env.RespawnConnection:Disconnect()
 end
 
--- Hook into character spawns so the script tracks your lives automatically
 env.RespawnConnection = lp.CharacterAdded:Connect(function()
-    task.wait(0.5) -- Give the game a half-second to fully build your UI
+    task.wait(0.5)
     setupReanimateButton()
 end)
 
--- 4. INITIALIZE
--- Run it right now for the life you are currently on
 setupReanimateButton()
 
 local Players = game:GetService("Players")
@@ -1133,7 +1070,6 @@ local TweenService = game:GetService("TweenService")
 local lp = Players.LocalPlayer
 local mouse = lp:GetMouse()
 
---// 1. CREATE FIXED LAYOUT PANEL CONTAINING BOTH BUTTON AND TEXT
 local syncGui = Instance.new("ScreenGui")
 syncGui.Name = "SyncStatusGui"
 syncGui.ResetOnSpawn = false
@@ -1182,7 +1118,7 @@ syncTextLabel.TextSize = 13
 syncTextLabel.ZIndex = 10000
 syncTextLabel.Parent = syncContainer
 
---// UI Slide Animations
+
 local function showSyncBanner(displayName)
     syncTextLabel.Text = "Syncing With " .. displayName
     TweenService:Create(syncContainer, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
@@ -1196,7 +1132,6 @@ local function hideSyncBanner()
     }):Play()
 end
 
---// 2. RIG TRANSLATION DICTIONARY (CROSS-RIG R6 <-> R15 FALLBACKS)
 local CROSS_RIG_MAP = {
     ["UpperTorso"] = "Torso", ["LowerTorso"] = "Torso",
     ["LeftUpperArm"] = "Left Arm", ["LeftLowerArm"] = "Left Arm", ["LeftHand"] = "Left Arm",
@@ -1219,8 +1154,6 @@ local ALL_SYNCABLE_PARTS = {
     "LeftUpperLeg", "LeftLowerLeg", "LeftFoot",
     "RightUpperLeg", "RightLowerLeg", "RightFoot"
 }
-
---// 3. HEIGHT-CORRECTED ANTI-FLICKER ENGINE
 local syncLoopConnection = nil
 
 local function stopSyncing()
@@ -1269,7 +1202,6 @@ local function beginSyncing(targetPlayer)
     
     showSyncBanner(targetPlayer.DisplayName)
     
-    -- RenderStepped pipeline for anti-flicker execution
     syncLoopConnection = RunService.RenderStepped:Connect(function()
         if not targetCharacter.Parent or not myCharacter.Parent then
             stopSyncing()
@@ -1286,8 +1218,6 @@ local function beginSyncing(targetPlayer)
             for _, partName in ipairs(ALL_SYNCABLE_PARTS) do
                 local targetPart = targetCharacter:FindFirstChild(partName)
                 local myPart = myCharacter:FindFirstChild(partName)
-                
-                -- Cross-Rig fallback checking
                 if not myPart then
                     local mappedFallbackName = CROSS_RIG_MAP[partName]
                     if mappedFallbackName then myPart = myCharacter:FindFirstChild(mappedFallbackName) end
@@ -1302,8 +1232,6 @@ local function beginSyncing(targetPlayer)
                     myPart.CanCollide = false
                     
                     local relativeCFrame = targetRoot.CFrame:ToObjectSpace(targetPart.CFrame)
-                    
-                    -- CRITICAL FIX: Transforms orientation smoothly and raises positions straight up by 0 studs
                     myPart.CFrame = myRoot.CFrame:ToWorldSpace(relativeCFrame) + Vector3.new(0, 0, 0)
                     
                     myPart.Velocity = Vector3.new(0, 0, 0)
@@ -1314,7 +1242,6 @@ local function beginSyncing(targetPlayer)
     end)
 end
 
---// 4. ADVANCED REANIM TARGET SCANNER
 mouse.Button1Down:Connect(function()
     local targetObj = mouse.Target
     if not targetObj then return end
@@ -1346,7 +1273,6 @@ mouse.Button1Down:Connect(function()
     end
 end)
 
---// 5. CONNECTIONS
 desyncBtn.MouseButton1Click:Connect(function()
     stopSyncing()
 end)
