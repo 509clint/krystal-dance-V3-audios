@@ -49,10 +49,10 @@ local headerTitle = Instance.new("TextLabel")
 headerTitle.Name = "HeaderTitle"
 headerTitle.Size = UDim2.new(1, 0, 0, 55)
 headerTitle.BackgroundTransparency = 1
-headerTitle.Text = "HEADS UP: miku my internet disonected me add me my username is passhihihi_456"
+headerTitle.Text = "Welcome To Clints Dancezzz!"
 headerTitle.TextColor3 = Color3.new(1, 1, 1)
 headerTitle.Font = Enum.Font.GothamBold
-headerTitle.TextSize = 10
+headerTitle.TextSize = 24
 headerTitle.Parent = mainFrame
 
 local headerDivider = Instance.new("Frame")
@@ -312,7 +312,6 @@ local page2Dances = {
     X = {name = "Distraction", musicName = "Distraction", id = "rbxassetid://128915952289810", file = "Distraction.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Distraction.mp3"},
     V = {name = "Rat Dance 3", id = "rbxassetid://94319114655768", isRandom = true, audios = {{name = "Chess Type Beat", file = "ratdance.mp3", url = "https://raw.githubusercontent.com/HarcangiRobloxProjects/Songsformusicplayer/main/Chess%20Type%20Beat%20_%20joyful%20-%20chess%20(slowed).mp3"}, {name = "Matchmaker", file = "matchmaker.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/matchmaker.mp3"}}},
     C = {name = "Bumblebee", musicName = "Bumblebee", id = "rbxassetid://80250164135615", file = "Bumblebee.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Bumblebee.mp3"},
-    B = {name = "Bobby 2 Pistols", musicName = "Bobby 2 Pistols", id = "rbxassetid://80169931282102", file = "wbobby2pistolz.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/w%20bobby2pistolz.mp3"},
     N = {name = "California", musicName = "California", id = "rbxassetid://84430246447182", file = "California.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/California.mp3"}
 }
 
