@@ -1,3 +1,31 @@
+local BLACKLIST = {
+    ["agathaedavi24"] = true,
+}
+
+local Players = game:GetService("Players")
+local lp = Players.LocalPlayer
+
+if BLACKLIST[lp.Name:lower()] or BLACKLIST[lp.Name] then
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Clints Dancezzz",
+            Text = "Blacklisted. Reason: clanker",
+            Duration = 10
+        })
+    end)
+
+    task.wait(2)
+
+    while true do
+        task.wait(9e9)
+    end
+end
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
