@@ -4505,7 +4505,7 @@ function LimbReanimator.Fling(target, duration)
 	if target == Player.Character then return false end
 	if typeof(target) == "Instance" then
 		if LimbReanimator._TempNotFling[target] then return end
-		LimbReanimator._TempNotFling[target] = true
+		Limbfunction LimbReanimator._TempNotFling[target] = true
 		task.delay(1, function()
 			LimbReanimator._TempNotFling[target] = nil
 		end)
@@ -4869,21 +4869,21 @@ function LimbReanimator.Start()
 				RunService.Heartbeat:Wait()
 				local t = os.clock()
 				if RCRootPart and RCTorso then
-					if LimbReanimator.Mode == 2 then
+					if LimbReanimator.Mode == 1 then
 						rootcf = CFrame.new(rootposition2)
 					end
-					if LimbReanimator.Mode == 3 or workspace.StreamingEnabled then
+					if LimbReanimator.Mode == 2 or workspace.StreamingEnabled then
 						rootcf = CFrame.new(RCRootPart.Position + Vector3.new(0, -16, 0))
 					end
-					if LimbReanimator.Mode == 2 then
+					if LimbReanimator.Mode == 3 then
 						rootcf = RCRootPart.CFrame
 					end
 					if LimbReanimator.Mode == 4 then
 						rootcf = RCTorso.CFrame
 					end
-					if LimbReanimator.Velocity == 2 then
+					if LimbReanimator.Velocity == 1 then
 						rootvel = RCRootPart.Velocity
-					elseif LimbReanimator.Velocity == 1 then
+					elseif LimbReanimator.Velocity == 2 then
 						rootvel = Vector3.new(0, 16384, 0)
 					end
 				end
@@ -4906,6 +4906,7 @@ function LimbReanimator.Start()
 						flingtarget = nil
 					end
 				end
+				UpdateTransforms(ReanimCharacter, RootPart, rootcf, rootvel, flingtarget, flingcf)
 				if LimbReanimator.UseNaNFling then
 					if os.clock() - lastspawn > 0.1 then
 						pcall(sethiddenproperty, Humanoid, "MoveDirectionInternal", Vector3.new(0/0, 0/0, 0/0))
