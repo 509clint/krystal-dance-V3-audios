@@ -4504,11 +4504,8 @@ function LimbReanimator.Fling(target, duration)
 	if target == Reanimate.Character then return false end
 	if target == Player.Character then return false end
 	if typeof(target) == "Instance" then
-		if LimbReanimator._TempNotFling[target] then return end
-		Limbfunction LimbReanimator._TempNotFling[target] = true
-		task.delay(1, function()
 			LimbReanimator._TempNotFling[target] = nil
-		end)
+		end
 	end
 	table.insert(LimbReanimator.FlingTargets, {
 		Target = target,
@@ -4530,8 +4527,7 @@ function LimbReanimator.Fling(target, duration)
 			game.Debris:AddItem(h, 5)
 		end
 	end
-	return true
-end
+
 function LimbReanimator.SetRootPartMode(mode)
 	assert(typeof(mode) == "number")
 	LimbReanimator.Mode = mode
