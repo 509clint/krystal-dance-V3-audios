@@ -1,3 +1,5 @@
+--Clints Dancezzz V5.2
+
 local BLACKLIST = {
     ["agathaedavi24"] = true,
 }
@@ -35,7 +37,7 @@ local changeLogData = {
     {
         date = "Current Version",
         items = {
-            "Adjusted Changelog GUI Siz"
+            "Adjusted Changelog GUI Size"
         }
     },
     {
@@ -247,7 +249,6 @@ local UserInputService = game:GetService("UserInputService")
 local SoundService = game:GetService("SoundService")
 local StarterGui = game:GetService("StarterGui")
 local RunService = game:GetService("RunService")
-local lp = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
 local RunService = game:GetService("RunService")
@@ -304,7 +305,7 @@ local page1Dances = {
     },
     E = {name = "Boogie Down", musicName = "Boogie", id = "rbxassetid://115461522815450", file = "boogiedown.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/boogie.mp3", playbackSpeed = 2.0},
     R = {name = "Assumptions", musicName = "Assumptions", id = "rbxassetid://86800672185924", file = "assumptions.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assumptions.mp3"},
-    T = {name = "Lonely", musicName = "Lonely", id = "rbxassetid://122147154162464", file = "Lonely.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Lonely.mp3"},
+    T = {name = "Hakari", musicName = "lonely remix", id = "rbxassetid://122147154162464", file = "Clint_Lonely.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Clint_Lonely.mp3"},
     Y = {name = "Doodle", musicName = "Doodle", id = "rbxassetid://93191191685066", file = "doodle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/doodle.mp3"},
     U = {name = "Carmell", musicName = "Caramelldansen", id = "rbxassetid://92900132509399", file = "carmell.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/caramell.mp3"},
     P = {name = "Gangnam Style", musicName = "Gangnam Style", id = "rbxassetid://116468071022853", file = "gangnamstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnamm.mp3"},
@@ -357,7 +358,7 @@ local page3Dances = {
     J = {name = "Tryna", musicName = "Tryna", id = "rbxassetid://97313703484279", file = "tryna.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/tryna.mp3", animSpeed = 0.8},
     K = {name = "C14", musicName = "C14", id = "rbxassetid://72178400904090", file = "C14.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/C14.mp3"},
     L = {name = "Metro", musicName = "Metro", id = "rbxassetid://136271269847411", file = "Metro.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Metro.mp3"},
-    Z = {name = "Chinese Dance", musicName = "Chinese Dance", id = "rbxassetid://136593170936320", file = "Chinese Dance.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Chinese%20Dance.mp3"},
+    Z = {name = "Subject Three", musicName = "a", id = "rbxassetid://111993447655346", file = "SubjectThree.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/SubjectThree.mp3"},
     X = {name = "Checking", musicName = "Checking", id = "rbxassetid://120729591181174", file = "checking.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/checking.mp3"},
     C = {name = "Phibz", musicName = "Phibz", id = "rbxassetid://91723508442884", file = "phibz.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/phibz.mp3"},
     V = {name = "The Hero", musicName = "The Hero", id = "rbxassetid://71032247715580", file = "The Hero.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/The%20Hero.mp3"},
@@ -366,9 +367,10 @@ local page3Dances = {
 }
 
 local page4Dances = {
-    Q = {name = "Kiwik Flip", musicName = "Kiwik Flip", id = "rbxassetid://78225140245993", animSpeed = 1.38, file = "kiwikflip.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/kiwikflip.MP3"},
-	E = {name = "Slickback", musicName = "Slickback", id = "rbxassetid://103789826265487", file = "Slickback.mp3", url = "https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/Slickback.mp3"},
-    R = {name = "Bille Jean", musicName = "Billie Jean", id = "rbxassetid://79081741493045", file = "Bjean.mp3", url = "https://github.com/Solary-3/Scripts/raw/refs/heads/Audios-1/Bjean.mp3"}
+    Q = { name="Kwik Flip",  musicName="Kiwik Flip", id="rbxassetid://78225140245993",  animSpeed=1.38, file="kiwikflip.mp3",   url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/kiwikflip.MP3" },
+    E = { name="Slickback",  musicName="Slickback",  id="rbxassetid://103789826265487",              file="Slickback.mp3",   url="https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/Slickback.mp3" },
+    R = { name="Bille Jean", musicName="Billie Jean",id="rbxassetid://79081741493045",               file="Bjean.mp3",       url="https://github.com/Solary-3/Scripts/raw/refs/heads/Audios-1/Bjean.mp3" },
+    T = { name="Mesmerizer", musicName="Mesmerizer", id="rbxassetid://110947052366036", animSpeed=1.5, file="Mesmerizer.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Mesmerizer.mp3" },
 }
 
 local currentTrack, currentSound, backgroundSound = nil, nil, nil
@@ -839,7 +841,7 @@ local mobileStopMotionDances = {
     ["The Hero"] = true,
 	["Distraction"] = true,
 	["Jax Toy"] = true,
-	["Kiwik Flip"] = true
+	["Kwik Flip"] = true
 }
 
 local mobileStopMotionEnabled = false
