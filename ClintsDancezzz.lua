@@ -1,4 +1,4 @@
---Clints Dancezzz V5.3
+--Clints Dancezzz V5.4
 
 local BLACKLIST = {
     ["agathaedavi24"] = true,
@@ -234,6 +234,21 @@ if s and #content > 10 then
     writefile("luxorious.lua", content)
 end
 
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/rat%20dance.lua")
+if s and #content > 10 then
+    writefile("rat dance.lua", content)
+end
+
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assumptions.lua")
+if s and #content > 10 then
+    writefile("assumptions.lua", content)
+end
+
+--[[local s, content = pcall(game.HttpGet, game, "")
+if s and #content > 10 then
+    writefile("", content)
+end]]
+
 game.StarterGui:SetCore("SendNotification",{
         Title = "Clints Dancezzz";
         Text = "Discord Invite Copied!";
@@ -344,7 +359,7 @@ local page2Dances = {
     L = {name = "Birdbrain", id = "rbxassetid://105730788757021", isRandom = true, audios = {{name = "Birdbrain 2", file = "Birdbrain2.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Birdbrain2.mp3"}, {name = "Birdbrain Alt", file = "BirdbrainAlt.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/BirdbrainAlt.mp3"}}},
     Z = {name = "Rambunctious", musicName = "Rambunctious", id = "rbxassetid://108128682361404", file = "Rambunctious.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Rambunctious.mp3"},
     X = {name = "Distraction", musicName = "Distraction", id = "rbxassetid://128915952289810", file = "Distraction.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Distraction.mp3"},
-    V = {name = "Rat Dance 3", id = "rbxassetid://94319114655768", isRandom = true, audios = {{name = "Chess Type Beat", file = "ratdance.mp3", url = "https://raw.githubusercontent.com/HarcangiRobloxProjects/Songsformusicplayer/main/Chess%20Type%20Beat%20_%20joyful%20-%20chess%20(slowed).mp3"}, {name = "Matchmaker", file = "matchmaker.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/matchmaker.mp3"}}},
+    V = {name = "Rat Dance 3", jsonFile = "rat dance.lua", isRandom = true, audios = {{name = "Chess Type Beat", file = "ratdance.mp3", url = "https://raw.githubusercontent.com/HarcangiRobloxProjects/Songsformusicplayer/main/Chess%20Type%20Beat%20_%20joyful%20-%20chess%20(slowed).mp3"}, {name = "Matchmaker", file = "matchmaker.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/matchmaker.mp3"}}},
     C = {name = "Bumblebee", musicName = "Bumblebee", id = "rbxassetid://80250164135615", file = "Bumblebee.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Bumblebee.mp3"},
     N = {name = "California", musicName = "California", id = "rbxassetid://84430246447182", file = "California.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/California.mp3"}
 }
@@ -376,6 +391,7 @@ local page4Dances = {
     E = { name="Slickback",  musicName="Slickback",  id="rbxassetid://103789826265487",              file="Slickback.mp3",   url="https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/Slickback.mp3" },
     R = { name="Bille Jean", musicName="Billie Jean",id="rbxassetid://79081741493045",               file="Bjean.mp3",       url="https://github.com/Solary-3/Scripts/raw/refs/heads/Audios-1/Bjean.mp3" },
     T = { name="Mesmerizer", musicName="Mesmerizer", id="rbxassetid://110947052366036", animSpeed=1.5, file="Mesmerizer.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Mesmerizer.mp3" },
+    Y = { name="Assumptions Shuffle", jsonFile = "assumptions.lua", musicName="idk man", file="assum.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assum.mp3" },
 }
 
 local currentTrack, currentSound, backgroundSound = nil, nil, nil
@@ -558,8 +574,13 @@ local function stopJsonAnimation()
     end
 end
 local function stopAll()
-    if currentTrack then currentTrack:Stop() currentTrack:Destroy() currentTrack = nil end
+     if currentTrack then currentTrack:Stop() currentTrack:Destroy() currentTrack = nil end
     if currentSound then currentSound:Stop() currentSound:Destroy() currentSound = nil end
+    if activeJsonPlayback then
+        forceStopJsonPlayback = true
+        local timeout = 0
+        repeat task.wait(0.05) timeout += 0.05 until not activeJsonPlayback or timeout >= 0.1
+    end
     stopJsonAnimation()
     isPlaying = false
     activeDanceKey = nil
@@ -579,8 +600,13 @@ local function playDance(data, key)
     local char = lp.Character
     local humanoid = char:FindFirstChildOfClass("Humanoid")
     local animator = humanoid:FindFirstChildOfClass("Animator") or humanoid
-    if currentTrack then currentTrack:Stop() currentTrack:Destroy() currentTrack = nil end
+     if currentTrack then currentTrack:Stop() currentTrack:Destroy() currentTrack = nil end
     if currentSound then currentSound:Stop() currentSound:Destroy() currentSound = nil end
+    if activeJsonPlayback then
+        forceStopJsonPlayback = true
+        local timeout = 0
+        repeat task.wait(0.05) timeout += 0.05 until not activeJsonPlayback or timeout >= 1
+    end
     if char and char:FindFirstChild("Animate") then
         char.Animate.Disabled = true
         for _, t in pairs(animator:GetPlayingAnimationTracks()) do t:Stop(0) end
