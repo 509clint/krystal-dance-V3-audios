@@ -1,4 +1,4 @@
---Clints Dancezzz V5.2
+--Clints Dancezzz V5.3
 
 local BLACKLIST = {
     ["agathaedavi24"] = true,
@@ -229,6 +229,11 @@ task.spawn(function()
     end
 end)
 
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/luxorious.lua")
+if s and #content > 10 then
+    writefile("luxorious.lua", content)
+end
+
 game.StarterGui:SetCore("SendNotification",{
         Title = "Clints Dancezzz";
         Text = "Discord Invite Copied!";
@@ -310,11 +315,11 @@ local page1Dances = {
     U = {name = "Carmell", musicName = "Caramelldansen", id = "rbxassetid://92900132509399", file = "carmell.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/caramell.mp3"},
     P = {name = "Gangnam Style", musicName = "Gangnam Style", id = "rbxassetid://116468071022853", file = "gangnamstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnamm.mp3"},
     F = {name = "Jumpstyle", musicName = "FALL FROM THE SKY PT2", id = "rbxassetid://85528043259864", file = "jumpstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Jumpstyle.mp3"},
-    G = {name = "Bacon Noob", musicName = "Bacon Noob", id = "rbxassetid://128361350157303", file = "bacon noob.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/bacon%20noob.MP3"},
+    G = {name = "Zacon Noob", musicName = "Zacon Noob", id = "rbxassetid://128361350157303", file = "bacon noob.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/bacon%20noob.MP3"},
     H = {name = "Monster Mash", musicName = "Monster Mash", id = "rbxassetid://107864975312860", file = "monstermash.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/monstermash.mp3"},
     J = {name = "Bang Bang Bang", musicName = "Bang Bang Bang", id = "rbxassetid://108637462377816", file = "bangbangbang.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/bangbangbang.MP3"},
     K = {name = "Criss Cross", musicName = "Criss Cross", id = "rbxassetid://119524559800928", file = "CrissCross.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/CrissCross.mp3"},
-    L = {name = "luxorious", musicName = "e", id = "rbxassetid://132151459316300", file = "Lux.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Lux.mp3"},
+    L = {name = "Luxorious", jsonFile = "luxorious.lua", musicName = "e", id = "rbxassetid://132151459316300", file = "Lux.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Lux.mp3"},
     Z = {name = "Headlock", musicName = "Headlock", id = "rbxassetid://125201240575195", file = "headlock.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/headlock.MP3"},
     X = {name = "Egypt", musicName = "Prince Of Egypt", id = "rbxassetid://91860601534533", file = "Egypt.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Egypt.mp3"},
     C = {name = "Mannrobics", musicName = "Mannrobics", id = "rbxassetid://96207177690619", file = "trolled.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/trolled.mp3"},
@@ -416,10 +421,146 @@ local function anim2track(asset_id)
     end
     return asset_id
 end
+local HttpService = game:GetService("HttpService")
+local activeJsonPlayback = false
+local forceStopJsonPlayback = false
+local jsonPlaybackConnection = nil
 
+local function playJsonAnimation(jsonFile, animSpeedOverride, shouldLoop)
+    if not isfile(jsonFile) then
+        notify("Clints Dancezzz", "JSON file not found: " .. jsonFile)
+        return
+    end
+
+    local success, decoded = pcall(function()
+        return HttpService:JSONDecode(readfile(jsonFile))
+    end)
+    if not success or not decoded then
+        notify("Clints Dancezzz", "Failed to read JSON: " .. jsonFile)
+        return
+    end
+
+    local savedData = decoded
+    local animSpeed = animSpeedOverride or 1.0
+    local isLooping = (shouldLoop == nil) and true or shouldLoop
+
+    local char = lp.Character
+    if not char then return end
+    local root = char:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+
+    -- Disable Animate and stop existing tracks
+    if char:FindFirstChild("Animate") then
+        char.Animate.Disabled = true
+    end
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    local animator = humanoid and humanoid:FindFirstChildOfClass("Animator")
+    if animator then
+        for _, t in pairs(animator:GetPlayingAnimationTracks()) do t:Stop(0) end
+    end
+
+    -- Build joint map
+    local joints = {}
+    for _, v in ipairs(char:GetDescendants()) do
+        if v:IsA("Motor6D") then joints[v.Name] = v end
+    end
+
+    -- Count total frames
+    local totalFrames = 0
+    for k, _ in pairs(savedData) do
+        local n = tonumber(k) or 0
+        if n > totalFrames then totalFrames = n end
+    end
+    if totalFrames == 0 then return end
+
+    -- Build timeline
+    local timelineMarks = {}
+    local currentTotalTime = 0
+    for i = 1, totalFrames do
+        local frameData = savedData[tostring(i)]
+        local fTime = frameData and frameData["_FrameTime"] or (1/60)
+        timelineMarks[i] = currentTotalTime
+        currentTotalTime = currentTotalTime + fTime
+    end
+    local totalAnimDuration = currentTotalTime
+
+    activeJsonPlayback = true
+    forceStopJsonPlayback = false
+
+    local function tableToCf(t)
+        return CFrame.new(table.unpack(t))
+    end
+
+    task.spawn(function()
+        -- Detach animator so it doesn't fight us
+        local animatorParent = animator and animator.Parent
+        if animator then animator.Parent = nil end
+
+        local initialPlaybackCF = root.CFrame
+
+        repeat
+            local elapsedTime = 0
+            initialPlaybackCF = root.CFrame
+
+            while elapsedTime < totalAnimDuration and not forceStopJsonPlayback do
+                local dt = RunService.Heartbeat:Wait()
+                elapsedTime = elapsedTime + (dt * animSpeed)
+
+                local frameA_Index = 1
+                local frameB_Index = 1
+                for i = 1, totalFrames - 1 do
+                    if elapsedTime >= timelineMarks[i] and elapsedTime <= timelineMarks[i+1] then
+                        frameA_Index = i
+                        frameB_Index = i + 1
+                        break
+                    end
+                end
+                if elapsedTime >= timelineMarks[totalFrames] then
+                    frameA_Index = totalFrames
+                    frameB_Index = totalFrames
+                end
+
+                local dataA = savedData[tostring(frameA_Index)]
+                local dataB = savedData[tostring(frameB_Index)]
+
+                if dataA and dataB then
+                    local timeA = timelineMarks[frameA_Index]
+                    local timeB = timelineMarks[frameB_Index]
+                    local alpha = 0
+                    if timeB - timeA > 0 then
+                        alpha = (elapsedTime - timeA) / (timeB - timeA)
+                    end
+                    alpha = math.clamp(alpha, 0, 1)
+                    for jName, jointInstance in pairs(joints) do
+                        if jointInstance and jointInstance.Parent then
+                            local tA = dataA[jName]
+                            local tB = dataB[jName]
+                            if tA and tB then
+                                jointInstance.Transform = tableToCf(tA):Lerp(tableToCf(tB), alpha)
+                            elseif tA then
+                                jointInstance.Transform = tableToCf(tA)
+                            end
+                        end
+                    end
+                end
+            end
+        until not isLooping or forceStopJsonPlayback
+
+        if animator then animator.Parent = animatorParent end
+        activeJsonPlayback = false
+        forceStopJsonPlayback = false
+    end)
+end
+
+local function stopJsonAnimation()
+    if activeJsonPlayback then
+        forceStopJsonPlayback = true
+    end
+end
 local function stopAll()
     if currentTrack then currentTrack:Stop() currentTrack:Destroy() currentTrack = nil end
     if currentSound then currentSound:Stop() currentSound:Destroy() currentSound = nil end
+    stopJsonAnimation()
     isPlaying = false
     activeDanceKey = nil
     backgroundSound.TimePosition = savedTimestamp
@@ -451,15 +592,19 @@ local function playDance(data, key)
         backgroundSound:Stop()
     end
 
-    local animId = anim2track(data.id)
-    local animation = Instance.new("Animation")
-    animation.AnimationId = animId
-    currentTrack = animator:LoadAnimation(animation)
-    currentTrack.Priority = Enum.AnimationPriority.Action
-    currentTrack.Looped = true
-    currentTrack:Play()
+    if data.jsonFile then
+        playJsonAnimation(data.jsonFile, data.animSpeed, true)
+    else
+        local animId = anim2track(data.id)
+        local animation = Instance.new("Animation")
+        animation.AnimationId = animId
+        currentTrack = animator:LoadAnimation(animation)
+        currentTrack.Priority = Enum.AnimationPriority.Action
+        currentTrack.Looped = true
+        currentTrack:Play()
 
-    if data.animSpeed then currentTrack:AdjustSpeed(data.animSpeed) end
+        if data.animSpeed then currentTrack:AdjustSpeed(data.animSpeed) end
+    end
     if audioData.url then
         task.spawn(function()
             if not isfile(audioData.file) then
