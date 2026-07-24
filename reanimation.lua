@@ -1,6 +1,6 @@
 --reanimate by MyWorld#4430 discord.gg/pYVHtSJmEY
 --the code that looks trash and works great
-local healthHide = true --moves your head away every 3 seconds so players dont see your health bar (alignmode 4 only)
+local healthHide = false --moves your head away every 3 seconds so players dont see your health bar (alignmode 4 only)
 local reclaim = true --if you lost control over a part this will move your primary part to the part so you get it back (alignmode 4)
 local novoid = true --prevents parts from going under workspace.FallenPartsDestroyHeight if you control them (alignmode 4 only)
 local physp = nil --PhysicalProperties.new(0.01, 0, 1, 0, 0) --sets .CustomPhysicalProperties to this for each part
@@ -11,11 +11,11 @@ local discharscripts = true --disables all localScripts parented to your charact
 local R15toR6 = false --tries to convert your character to r6 if its r15
 local hatcollide = true --makes hats cancollide (credit to ShownApe) (works only with reanimate method 0)
 local humState16 = true --enables collisions for limbs before the humanoid dies (using hum:ChangeState)
-local addtools = false --puts all tools from backpack to character and lets you hold them after reanimation
+local addtools = true --puts all tools from backpack to character and lets you hold them after reanimation
 local hedafterneck = true --disable aligns for head and enable after neck or torso is removed
 local simrad = 1000 --simulation radius with sethiddenproperty (nil to disable)
 local loadtime = game:GetService("Players").RespawnTime + 0.5 --anti respawn delay
-local method = 2 --reanimation method
+local method = 0 --reanimation method
 --methods:
 --0 - breakJoints (takes [loadtime] seconds to load)
 --1 - limbs
