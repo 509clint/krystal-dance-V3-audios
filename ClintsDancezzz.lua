@@ -1371,7 +1371,7 @@ env.RespawnConnection = lp.CharacterAdded:Connect(function()
 end)
 
 setupReanimateButton()
-
+--[[
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
@@ -1583,4 +1583,4 @@ end)
 
 desyncBtn.MouseButton1Click:Connect(function()
     stopSyncing()
-end)
+end)]]--
