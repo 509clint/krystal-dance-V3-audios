@@ -1,4 +1,4 @@
---Clints Dancezzz V5.9
+--Clints Dancezzz V6
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -410,7 +410,7 @@ local page1Dances = {
     T = {name = "Hakari", musicName = "lonely remix", id = "rbxassetid://122147154162464", file = "Clint_Lonely.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Clint_Lonely.mp3"},
     Y = {name = "Doodle", musicName = "Doodle", id = "rbxassetid://93191191685066", file = "doodle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/doodle.mp3"},
     U = {name = "Carmell", musicName = "Caramelldansen", id = "rbxassetid://92900132509399", file = "carmell.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/caramell.mp3"},
-    P = {name = "Gangnam Style", musicName = "Gangnam Style", jsonFile = "gangnam.lua", file = "gangnamstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnamm.mp3"},
+    P = {name = "Gangnam Style", musicName = "Gangnam Style", jsonFile = "gangnam.lua", file = " oppa gangnam styole.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/oppa%20gangnam%20styole.mp3"},
     F = {name = "Jumpstyle", musicName = "FALL FROM THE SKY PT2", id = "rbxassetid://85528043259864", file = "jumpstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Jumpstyle.mp3"},
     G = {name = "Zacon Noob", musicName = "Zacon Noob", id = "rbxassetid://128361350157303", file = "bacon noob.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/bacon%20noob.MP3"},
     H = {name = "Monster Mash", musicName = "Monster Mash", id = "rbxassetid://107864975312860", file = "monstermash.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/monstermash.mp3"},
@@ -482,6 +482,27 @@ local savedTimestamp = 0
 local activeDanceKey = nil
 local currentPage = 1
 local baseFOV = 70
+local DANCE_WALKSPEEDS = {
+    ["Griddy"] = 5,
+    ["Mannrobics"] = 5,
+    ["Sit"] = 0,
+    ["Rat Dance"] = 5,
+    ["Rat Dance 2"] = 10,
+    ["Rat Dance 3"] = 5,
+    ["Default"] = 5,
+    ["Teto Thing"] = 5,
+    ["Criss Cross"] = 5,
+    ["Luxorious"] = 5,
+    ["Gangnam Style"] = 5,
+    ["Jax Toy"] = 5,
+    ["Sponge Shuffle"] = 5,
+    ["Rambunctious"] = 5,
+    ["Miss Me"] = 5,
+    ["The Hero"] = 10,
+    ["Kwik Flip"] = 5,
+    ["Bille Jean"] = 10,
+    ["Assumptions Shuffle"] = 10,
+}
 
 RunService.RenderStepped:Connect(function()
     local targetFOV = baseFOV
@@ -672,6 +693,8 @@ local function stopAll()
     if lp.Character and lp.Character:FindFirstChild("Animate") then
         lp.Character.Animate.Disabled = false
     end
+    local hum = lp.Character and lp.Character:FindFirstChildOfClass("Humanoid")
+    if hum then hum.WalkSpeed = 16 end
 end
 
 local function playDance(data, key)
@@ -731,6 +754,8 @@ local function playDance(data, key)
             end
         end)
     end
+    local hum = lp.Character and lp.Character:FindFirstChildOfClass("Humanoid")
+    if hum then hum.WalkSpeed = DANCE_WALKSPEEDS[data.name] or 16 end
     isPlaying = true
     activeDanceKey = key
 end
