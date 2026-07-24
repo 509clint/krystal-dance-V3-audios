@@ -410,7 +410,7 @@ local page1Dances = {
     T = {name = "Hakari", musicName = "lonely remix", id = "rbxassetid://122147154162464", file = "Clint_Lonely.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Clint_Lonely.mp3"},
     Y = {name = "Doodle", musicName = "Doodle", id = "rbxassetid://93191191685066", file = "doodle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/doodle.mp3"},
     U = {name = "Carmell", musicName = "Caramelldansen", id = "rbxassetid://92900132509399", file = "carmell.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/caramell.mp3"},
-    P = {name = "Gangnam Style", musicName = "Gangnam Style", id = "rbxassetid://116468071022853", file = "gangnamstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnamm.mp3"},
+    P = {name = "Gangnam Style", musicName = "Gangnam Style", jsonFile = "gangnam.lua", file = "gangnamstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnamm.mp3"},
     F = {name = "Jumpstyle", musicName = "FALL FROM THE SKY PT2", id = "rbxassetid://85528043259864", file = "jumpstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Jumpstyle.mp3"},
     G = {name = "Zacon Noob", musicName = "Zacon Noob", id = "rbxassetid://128361350157303", file = "bacon noob.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/bacon%20noob.MP3"},
     H = {name = "Monster Mash", musicName = "Monster Mash", id = "rbxassetid://107864975312860", file = "monstermash.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/monstermash.mp3"},
