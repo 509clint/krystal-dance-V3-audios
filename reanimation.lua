@@ -1,3 +1,5 @@
+game.ReplicatedStorage["01_server"]:FireServer("cmd", "-net")
+task.wait(0.2)
 --reanimate by MyWorld#4430 discord.gg/pYVHtSJmEY
 --the code that looks trash and works great
 local healthHide = false --moves your head away every 3 seconds so players dont see your health bar (alignmode 4 only)
@@ -11,11 +13,11 @@ local discharscripts = true --disables all localScripts parented to your charact
 local R15toR6 = false --tries to convert your character to r6 if its r15
 local hatcollide = true --makes hats cancollide (credit to ShownApe) (works only with reanimate method 0)
 local humState16 = true --enables collisions for limbs before the humanoid dies (using hum:ChangeState)
-local addtools = true --puts all tools from backpack to character and lets you hold them after reanimation
+local addtools = false --puts all tools from backpack to character and lets you hold them after reanimation
 local hedafterneck = true --disable aligns for head and enable after neck or torso is removed
 local simrad = 1000 --simulation radius with sethiddenproperty (nil to disable)
 local loadtime = game:GetService("Players").RespawnTime + 0.5 --anti respawn delay
-local method = 0 --reanimation method
+local method = 3 --reanimation method
 --methods:
 --0 - breakJoints (takes [loadtime] seconds to load)
 --1 - limbs
@@ -872,3 +874,5 @@ if flingpart0 and flingpart1 then
 
     game:GetService('ReplicatedStorage'):WaitForChild('01_server'):FireServer('cmd', '-net ')
 end
+
+lp:GetMouse().Button1Down:Connect(fling) --click fling
