@@ -1,4 +1,67 @@
---Clints Dancezzz V5.4
+--Clints Dancezzz V5.8
+
+local OWNER_TAG_PLAYERS = {
+    ["Passhihihi_456"] = true,
+}
+
+local function applyOwnerTag(character)
+    local head = character:WaitForChild("Head")
+    if head:FindFirstChild("OwnerTag") then return end
+
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "OwnerTag"
+    billboard.Size = UDim2.new(0, 100, 0, 30)
+    billboard.StudsOffset = Vector3.new(0, 2.5, 0)
+    billboard.AlwaysOnTop = true
+    billboard.Parent = head
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = "Clint"
+    label.TextColor3 = Color3.fromRGB(255, 215, 0)
+    label.Font = Enum.Font.GothamBold
+    label.TextScaled = true
+    label.Parent = billboard
+end
+
+local function addOwnerTag(player)
+    if player.Character then applyOwnerTag(player.Character) end
+    player.CharacterAdded:Connect(function(character)
+        applyOwnerTag(character)
+    end)
+end
+
+local ownerTagPlayers = game:GetService("Players")
+
+for _, player in ipairs(ownerTagPlayers:GetPlayers()) do
+    if OWNER_TAG_PLAYERS[player.Name] then
+        task.spawn(addOwnerTag, player)
+    end
+end
+
+ownerTagPlayers.PlayerAdded:Connect(function(player)
+    if OWNER_TAG_PLAYERS[player.Name] then
+        task.spawn(addOwnerTag, player)
+    end
+end)
+
+task.spawn(function()
+    while true do
+        task.wait(5)
+        for _, player in ipairs(ownerTagPlayers:GetPlayers()) do
+            if OWNER_TAG_PLAYERS[player.Name] then
+                local char = player.Character
+                if char then
+                    local head = char:FindFirstChild("Head")
+                    if head and not head:FindFirstChild("OwnerTag") then
+                        applyOwnerTag(char)
+                    end
+                end
+            end
+        end
+    end
+end)
 
 local BLACKLIST = {
     ["agathaedavi24"] = true,
@@ -228,7 +291,6 @@ task.spawn(function()
         task.wait(0.5)
     end
 end)
-
 local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/luxorious.lua")
 if s and #content > 10 then
     writefile("luxorious.lua", content)
@@ -244,11 +306,26 @@ if s and #content > 10 then
     writefile("assumptions.lua", content)
 end
 
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/hit%20the%20griddy.lua")
+if s and #content > 10 then
+    writefile("hit the griddy.lua", content)
+end
+
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/popipo%20thing.lua")
+if s and #content > 10 then
+    writefile("popipo thing.lua", content)
+end
+
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/mesmerizer.lua")
+if s and #content > 10 then
+    writefile("mesmerizer.lua", content)
+end
+
 --[[local s, content = pcall(game.HttpGet, game, "")
 if s and #content > 10 then
     writefile("", content)
 end]]
-
+-- https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/mesmerizer.lua
 game.StarterGui:SetCore("SendNotification",{
         Title = "Clints Dancezzz";
         Text = "Discord Invite Copied!";
@@ -353,7 +430,7 @@ local page2Dances = {
     P = {name = "Sponge Shuffle", musicName = "Sponge Shuffle", id = "rbxassetid://107899954696611", file = "spongeshuffle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/spongeshuffle.mp3"},
     F = {name = "Low Quality", musicName = "Low Quality", id = "rbxassetid://98724385720280", file = "lowquality.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/LowQuality.mp3"},
     G = {name = "I Just Hit The JACKPOT!", musicName = "Jackpot", id = "rbxassetid://123907974136413", file = "jackpot.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/jackpot.mp3", animSpeed = 0.8},
-    H = {name = "PoPiPo", musicName = "PoPiPo", id = "rbxassetid://134221936510464", file = "PoPiPo.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/PoPiPo.mp3"},
+    H = {name = "PoPiPo", jsonFile = "popipo thing.lua", musicName = "PoPiPo", id = "rbxassetid://134221936510464", file = "PoPiPo.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/PoPiPo.mp3"},
     J = {name = "Backflips", musicName = "Backflips", id = "rbxassetid://105695373357201", file = "Backflips.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Backflips.mp3"},
     K = {name = "Kazotsky Kick", musicName = "Kazotsky Kick", id = "rbxassetid://116194753625255", file = "kazotskykick.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/kazotskykick.mp3"},
     L = {name = "Birdbrain", id = "rbxassetid://105730788757021", isRandom = true, audios = {{name = "Birdbrain 2", file = "Birdbrain2.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Birdbrain2.mp3"}, {name = "Birdbrain Alt", file = "BirdbrainAlt.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/BirdbrainAlt.mp3"}}},
@@ -366,7 +443,7 @@ local page2Dances = {
 
 local page3Dances = {
     Q = {name = "Civilian Yell", musicName = "Civilian Yell", id = "rbxassetid://126080612954274", file = "CivilianYell.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/CivillianYell.mp3"},
-    E = {name = "Griddy", musicName = "Griddy", id = "rbxassetid://75519433871034", file = "Griddy.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Griddy.mp3"},
+    E = {name = "Griddy", jsonFile = "hit the griddy.lua", musicName = "Griddy", id = "rbxassetid://75519433871034", file = "Griddy.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Griddy.mp3"},
     R = {name = "Torture Dance", musicName = "Torture Dance", id = "rbxassetid://76119197893969", file = "TortureDance.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/TortureDance.mp3"},
     T = {name = "Low Cortisol", musicName = "Low Cortisol", id = "rbxassetid://88446038474334", file = "LowCortisol.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/LowCortisol.mp3"},
     Y = {name = "Tenna", musicName = "Tenna", id = "rbxassetid://118637631357001", file = "Tenna.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Tenna.mp3", animSpeed = 2},
@@ -390,7 +467,7 @@ local page4Dances = {
     Q = { name="Kwik Flip",  musicName="Kiwik Flip", id="rbxassetid://78225140245993",  animSpeed=1.38, file="kiwikflip.mp3",   url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/kiwikflip.MP3" },
     E = { name="Slickback",  musicName="Slickback",  id="rbxassetid://103789826265487",              file="Slickback.mp3",   url="https://raw.githubusercontent.com/509clint/krystal-dance-V3-audios/main/Slickback.mp3" },
     R = { name="Bille Jean", musicName="Billie Jean",id="rbxassetid://79081741493045",               file="Bjean.mp3",       url="https://github.com/Solary-3/Scripts/raw/refs/heads/Audios-1/Bjean.mp3" },
-    T = { name="Mesmerizer", musicName="Mesmerizer", id="rbxassetid://110947052366036", animSpeed=1.5, file="Mesmerizer.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Mesmerizer.mp3" },
+    T = { name="Mesmerizer", musicName="Mesmerizer", jsonFile = "mesmerizer.lua", file="Mesmerizer.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Mesmerizer.mp3" },
     Y = { name="Assumptions Shuffle", jsonFile = "assumptions.lua", musicName="idk man", file="assum.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assum.mp3" },
 }
 
@@ -428,6 +505,8 @@ local function notify(title, text)
     StarterGui:SetCore("SendNotification", {Title = title, Text = text, Duration = 3})
 end
 
+
+
 local function anim2track(asset_id)
     local success, objs = pcall(function() return game:GetObjects(asset_id) end)
     if success and objs and objs[1] then
@@ -464,7 +543,6 @@ local function playJsonAnimation(jsonFile, animSpeedOverride, shouldLoop)
     if not char then return end
     local root = char:FindFirstChild("HumanoidRootPart")
     if not root then return end
-
     -- Disable Animate and stop existing tracks
     if char:FindFirstChild("Animate") then
         char.Animate.Disabled = true
