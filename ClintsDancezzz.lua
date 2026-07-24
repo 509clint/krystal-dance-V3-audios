@@ -1,4 +1,4 @@
---Clints Dancezzz V5.8
+--Clints Dancezzz V5.9
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -321,11 +321,16 @@ if s and #content > 10 then
     writefile("mesmerizer.lua", content)
 end
 
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnam.lua")
+if s and #content > 10 then
+    writefile("gangnam.lua", content)
+end
+
 --[[local s, content = pcall(game.HttpGet, game, "")
 if s and #content > 10 then
     writefile("", content)
 end]]
--- https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/mesmerizer.lua
+-- https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnam.lua
 game.StarterGui:SetCore("SendNotification",{
         Title = "Clints Dancezzz";
         Text = "Discord Invite Copied!";
