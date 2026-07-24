@@ -15,7 +15,7 @@ local addtools = false --puts all tools from backpack to character and lets you 
 local hedafterneck = true --disable aligns for head and enable after neck or torso is removed
 local simrad = 1000 --simulation radius with sethiddenproperty (nil to disable)
 local loadtime = game:GetService("Players").RespawnTime + 0.5 --anti respawn delay
-local method = 3 --reanimation method
+local method = 2 --reanimation method
 --methods:
 --0 - breakJoints (takes [loadtime] seconds to load)
 --1 - limbs
