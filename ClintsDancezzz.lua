@@ -1,4 +1,4 @@
---Clints Dancezzz V6
+--Clints Dancezzz V6.4
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -65,6 +65,7 @@ end)
 
 local BLACKLIST = {
     ["agathaedavi24"] = true,
+    ["SafaBey_Tr"]
 }
 
 local Players = game:GetService("Players")
@@ -74,7 +75,7 @@ if BLACKLIST[lp.Name:lower()] or BLACKLIST[lp.Name] then
     pcall(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Clints Dancezzz",
-            Text = "Blacklisted. Reason: clanker",
+            Text = "Blacklisted.",
             Duration = 10
         })
     end)
