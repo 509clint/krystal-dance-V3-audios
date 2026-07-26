@@ -65,7 +65,7 @@ end)
 
 local BLACKLIST = {
     ["agathaedavi24"] = true,
-    ["SafaBey_Tr"]
+    ["SafaBey_Tr"] = true,
 }
 
 local Players = game:GetService("Players")
