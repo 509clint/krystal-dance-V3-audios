@@ -1,4 +1,4 @@
---Clints Dancezzz V6.5
+--Clints Dancezzz V6.6
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -326,11 +326,30 @@ if s and #content > 10 then
     writefile("gangnam.lua", content)
 end
 
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/boppin.lua")
+if s and #content > 10 then
+    writefile("boppin.lua", content)
+end
+
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/dance%20of%20nights.lua")
+if s and #content > 10 then
+    writefile("dance of nights.lua", content)
+end
+
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/goopie.lua")
+if s and #content > 10 then
+    writefile("goopie.lua", content)
+end
+
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/jaxy%20toy.lua")
+if s and #content > 10 then
+    writefile("jaxy toy.lua", content)
+end
 --[[local s, content = pcall(game.HttpGet, game, "")
 if s and #content > 10 then
     writefile("", content)
 end]]
--- https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/gangnam.lua
+-- https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/jaxy%20toy.lua
 game.StarterGui:SetCore("SendNotification",{
         Title = "Clints Dancezzz";
         Text = "Discord Invite Copied!";
@@ -420,7 +439,7 @@ local page1Dances = {
     Z = {name = "Headlock", musicName = "Headlock", id = "rbxassetid://125201240575195", file = "headlock.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/headlock.MP3"},
     X = {name = "Egypt", musicName = "Prince Of Egypt", id = "rbxassetid://91860601534533", file = "Egypt.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Egypt.mp3"},
     C = {name = "Mannrobics", musicName = "Mannrobics", id = "rbxassetid://96207177690619", file = "trolled.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/trolled.mp3"},
-    V = {name = "Jax Toy", musicName = "Jax Toy", id = "rbxassetid://111491569569071", file = "Jax toy.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Jax%20toy.mp3"},
+    V = {name = "Jax Toy", musicName = "Jax Toy", jsonFile = "jaxy toy.lua", file = "Jax toy.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Jax%20toy.mp3"},
     B = {name = "Teto Thing", musicName = "None", id = "rbxassetid://131645522112785"},
     N = {name = "Bloodpop", musicName = "Bloodpop", id = "rbxassetid://107613144426609", file = "bloodpop.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/bloodpop.mp3"}
 }
@@ -431,7 +450,7 @@ local page2Dances = {
     R = {name = "Smug", musicName = "Smug", id = "rbxassetid://73509049289746", file = "Smug.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Smug.mp3"},
     T = {name = "Rat Dance 2", id = "rbxassetid://89132118681685", animSpeed = 1.6, isRandom = true, audios = {{name = "Chess Type Beat", file = "ratdance.mp3", url = "https://raw.githubusercontent.com/HarcangiRobloxProjects/Songsformusicplayer/main/Chess%20Type%20Beat%20_%20joyful%20-%20chess%20(slowed).mp3"}, {name = "Matchmaker", file = "matchmaker.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/matchmaker.mp3"}}},
     Y = {name = "DoD Gangnam Style", musicName = "Gangnam Style [Die of death]", id = "rbxassetid://118329687900633", file = "DODstyle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/DODstyle.mp3"},
-    U = {name = "Goopie", musicName = "Goopie", id = "rbxassetid://122558944580591", file = "Goopie.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Goopie.mp3"},
+    U = {name = "Goopie", musicName = "Goopie", jsonFile = "goopie.lua", file = "Goopie.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Goopie.mp3"},
     P = {name = "Sponge Shuffle", musicName = "Sponge Shuffle", id = "rbxassetid://107899954696611", file = "spongeshuffle.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/spongeshuffle.mp3"},
     F = {name = "Low Quality", musicName = "Low Quality", id = "rbxassetid://98724385720280", file = "lowquality.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/LowQuality.mp3"},
     G = {name = "I Just Hit The JACKPOT!", musicName = "Jackpot", id = "rbxassetid://123907974136413", file = "jackpot.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/jackpot.mp3", animSpeed = 0.8},
@@ -474,7 +493,8 @@ local page4Dances = {
     R = { name="Bille Jean", musicName="Billie Jean",id="rbxassetid://79081741493045",               file="Bjean.mp3",       url="https://github.com/Solary-3/Scripts/raw/refs/heads/Audios-1/Bjean.mp3" },
     T = { name="Mesmerizer", musicName="Mesmerizer", jsonFile = "mesmerizer.lua", file="Mesmerizer.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Mesmerizer.mp3" },
     Y = { name="Assumptions Shuffle", jsonFile = "assumptions.lua", musicName="idk man", file="assum.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assum.mp3" },
-    U = { name="fnaf remix thing", id = "rbxassetid://92046007756887", musicName="Circus (Sigma Rizz Mode Final Arc Ultra E.", file="fanf mixre.MP3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/fnaf%20mixre.MP3" }
+    U = { name="Boppin", jsonFile = "boppin.lua", musicName = "Boppin", file = "boppin.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/boppin.mp3" },
+    P = { name="Dance of Nights", jsonFile = "dance of nights.lua", musicName = "Dance of Nights", file = "dance of nights.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/dance%20of%20nights.mp3"},
 }
 
 local currentTrack, currentSound, backgroundSound = nil, nil, nil
