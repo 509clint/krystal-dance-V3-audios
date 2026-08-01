@@ -1,4 +1,4 @@
---Clints Dancezzz V6.7
+--Clints Dancezzz V6.8
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -1398,13 +1398,12 @@ local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local lp = Players.LocalPlayer
 local mouse = lp:GetMouse()
-
 local syncGui = Instance.new("ScreenGui")
 syncGui.Name = "SyncStatusGui"
 syncGui.ResetOnSpawn = false
 syncGui.Parent = lp:WaitForChild("PlayerGui")
 
-local syncContainer = Instance.new("Frame")
+--[[local syncContainer = Instance.new("Frame")
 syncContainer.Name = "SyncContainer"
 syncContainer.Size = UDim2.new(0, 300, 0, 80)
 syncContainer.Position = UDim2.new(0.5, 0, 1, 95)
@@ -1451,7 +1450,7 @@ syncTextLabel.Parent = syncContainer
 local function showSyncBanner(displayName)
     syncTextLabel.Text = "Syncing With " .. displayName
     TweenService:Create(syncContainer, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-        Position = UDim2.new(0.5, 0, 1, -25) 
+        Position = UDim2.new(0.5, 0, 1, -25)
     }):Play()
 end
 
@@ -1477,12 +1476,13 @@ local CROSS_RIG_MAP = {
 
 local ALL_SYNCABLE_PARTS = {
     "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "Head",
-    "UpperTorso", "LowerTorso", 
+    "UpperTorso", "LowerTorso",
     "LeftUpperArm", "LeftLowerArm", "LeftHand",
     "RightUpperArm", "RightLowerArm", "RightHand",
     "LeftUpperLeg", "LeftLowerLeg", "LeftFoot",
     "RightUpperLeg", "RightLowerLeg", "RightFoot"
 }
+
 local syncLoopConnection = nil
 
 local function stopSyncing()
@@ -1491,18 +1491,18 @@ local function stopSyncing()
         syncLoopConnection = nil
     end
     hideSyncBanner()
-    
+
     local myCharacter = lp.Character
     if myCharacter then
         local myHumanoid = myCharacter:FindFirstChildOfClass("Humanoid")
         if myHumanoid then myHumanoid.PlatformStand = false end
-        
+
         for _, part in ipairs(myCharacter:GetChildren()) do
             if part:IsA("BasePart") then
                 part.Anchored = false
                 part.CanCollide = true
-                part.Velocity = Vector3.new(0,0,0)
-                part.RotVelocity = Vector3.new(0,0,0)
+                part.Velocity = Vector3.new(0, 0, 0)
+                part.RotVelocity = Vector3.new(0, 0, 0)
             end
         end
     end
@@ -1510,58 +1510,53 @@ end
 
 local function beginSyncing(targetPlayer)
     if not targetPlayer or not targetPlayer.Character then return end
-    
+
     local myCharacter = lp.Character
     local targetCharacter = targetPlayer.Character
     if not myCharacter or not targetCharacter then return end
-    
+
     local myHumanoid = myCharacter:FindFirstChildOfClass("Humanoid")
-    if myHumanoid then myHumanoid.PlatformStand = true end 
-    
+    if myHumanoid then myHumanoid.PlatformStand = true end
+
     local targetRoot = targetCharacter:FindFirstChild("HumanoidRootPart")
     local myRoot = myCharacter:FindFirstChild("HumanoidRootPart")
     if not targetRoot or not myRoot then return end
-    
+
     local initialRootOffset = targetRoot.CFrame:ToObjectSpace(myRoot.CFrame)
-    
-    if syncLoopConnection then 
-        syncLoopConnection:Disconnect() 
+
+    if syncLoopConnection then
+        syncLoopConnection:Disconnect()
         syncLoopConnection = nil
     end
-    
+
     showSyncBanner(targetPlayer.DisplayName)
-    
+
+    -- Single RenderStepped loop (removed the duplicate nested connect)
     syncLoopConnection = RunService.RenderStepped:Connect(function()
         if not targetCharacter.Parent or not myCharacter.Parent then
             stopSyncing()
             return
         end
-        
-        if targetRoot.Parent and myRoot.Parent then
-syncLoopConnection = RunService.RenderStepped:Connect(function()
-    if not targetCharacter.Parent or not myCharacter.Parent then
-        stopSyncing()
-        return
-    end
 
-    -- Build a Motor6D map for my character once per frame
-    local myMotorMap = {}
-    for _, desc in ipairs(myCharacter:GetDescendants()) do
-        if desc:IsA("Motor6D") then
-            myMotorMap[desc.Name] = desc
-        end
-    end
-
-    -- Mirror every Motor6D transform from the target
-    for _, desc in ipairs(targetCharacter:GetDescendants()) do
-        if desc:IsA("Motor6D") then
-            local myMotor = myMotorMap[desc.Name]
-            if myMotor then
-                myMotor.Transform = desc.Transform
+        -- Build a Motor6D map for my character once per frame
+        local myMotorMap = {}
+        for _, desc in ipairs(myCharacter:GetDescendants()) do
+            if desc:IsA("Motor6D") then
+                myMotorMap[desc.Name] = desc
             end
         end
-    end
-end)
+
+        -- Mirror every Motor6D transform from the target
+        for _, desc in ipairs(targetCharacter:GetDescendants()) do
+            if desc:IsA("Motor6D") then
+                local myMotor = myMotorMap[desc.Name]
+                if myMotor then
+                    myMotor.Transform = desc.Transform
+                end
+            end
+        end
+    end)
+end
 
 mouse.Button1Down:Connect(function()
     local targetObj = mouse.Target
@@ -1596,4 +1591,4 @@ end)
 
 desyncBtn.MouseButton1Click:Connect(function()
     stopSyncing()
-end)
+end)]]--
