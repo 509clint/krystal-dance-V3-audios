@@ -1,4 +1,4 @@
---Clints Dancezzz V6.4
+--Clints Dancezzz V6.5
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -65,7 +65,6 @@ end)
 
 local BLACKLIST = {
     ["agathaedavi24"] = true,
-    ["SafaBey_Tr"] = true,
 }
 
 local Players = game:GetService("Players")
@@ -75,7 +74,7 @@ if BLACKLIST[lp.Name:lower()] or BLACKLIST[lp.Name] then
     pcall(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Clints Dancezzz",
-            Text = "Blacklisted.",
+            Text = "Blacklisted. Reason: clanker",
             Duration = 10
         })
     end)
@@ -475,6 +474,7 @@ local page4Dances = {
     R = { name="Bille Jean", musicName="Billie Jean",id="rbxassetid://79081741493045",               file="Bjean.mp3",       url="https://github.com/Solary-3/Scripts/raw/refs/heads/Audios-1/Bjean.mp3" },
     T = { name="Mesmerizer", musicName="Mesmerizer", jsonFile = "mesmerizer.lua", file="Mesmerizer.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/Mesmerizer.mp3" },
     Y = { name="Assumptions Shuffle", jsonFile = "assumptions.lua", musicName="idk man", file="assum.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assum.mp3" },
+    U = { name="fnaf remix thing", id = "rbxassetid://92046007756887", musicName="Circus (Sigma Rizz Mode Final Arc Ultra E.", file="fanf mixre.MP3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/fnaf%20mixre.MP3" }
 }
 
 local currentTrack, currentSound, backgroundSound = nil, nil, nil
@@ -1372,7 +1372,7 @@ env.RespawnConnection = lp.CharacterAdded:Connect(function()
 end)
 
 setupReanimateButton()
---[[
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
@@ -1584,4 +1584,4 @@ end)
 
 desyncBtn.MouseButton1Click:Connect(function()
     stopSyncing()
-end)]]--
+end)
