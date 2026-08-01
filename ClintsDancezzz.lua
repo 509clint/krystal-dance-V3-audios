@@ -1,4 +1,4 @@
---Clints Dancezzz V6.6
+--Clints Dancezzz V6.7
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -1538,38 +1538,30 @@ local function beginSyncing(targetPlayer)
         end
         
         if targetRoot.Parent and myRoot.Parent then
-            myRoot.Anchored = true
-            myRoot.CFrame = targetRoot.CFrame:ToWorldSpace(initialRootOffset)
-            
-            myRoot.Velocity = Vector3.new(0,0,0)
-            myRoot.RotVelocity = Vector3.new(0,0,0)
-            
-            for _, partName in ipairs(ALL_SYNCABLE_PARTS) do
-                local targetPart = targetCharacter:FindFirstChild(partName)
-                local myPart = myCharacter:FindFirstChild(partName)
-                if not myPart then
-                    local mappedFallbackName = CROSS_RIG_MAP[partName]
-                    if mappedFallbackName then myPart = myCharacter:FindFirstChild(mappedFallbackName) end
-                end
-                if not targetPart then
-                    local mappedFallbackName = CROSS_RIG_MAP[partName]
-                    if mappedFallbackName then targetPart = targetCharacter:FindFirstChild(mappedFallbackName) end
-                end
-                
-                if targetPart and myPart and partName ~= "HumanoidRootPart" then
-                    myPart.Anchored = true
-                    myPart.CanCollide = false
-                    
-                    local relativeCFrame = targetRoot.CFrame:ToObjectSpace(targetPart.CFrame)
-                    myPart.CFrame = myRoot.CFrame:ToWorldSpace(relativeCFrame) + Vector3.new(0, 0, 0)
-                    
-                    myPart.Velocity = Vector3.new(0, 0, 0)
-                    myPart.RotVelocity = Vector3.new(0, 0, 0)
-                end
+syncLoopConnection = RunService.RenderStepped:Connect(function()
+    if not targetCharacter.Parent or not myCharacter.Parent then
+        stopSyncing()
+        return
+    end
+
+    -- Build a Motor6D map for my character once per frame
+    local myMotorMap = {}
+    for _, desc in ipairs(myCharacter:GetDescendants()) do
+        if desc:IsA("Motor6D") then
+            myMotorMap[desc.Name] = desc
+        end
+    end
+
+    -- Mirror every Motor6D transform from the target
+    for _, desc in ipairs(targetCharacter:GetDescendants()) do
+        if desc:IsA("Motor6D") then
+            local myMotor = myMotorMap[desc.Name]
+            if myMotor then
+                myMotor.Transform = desc.Transform
             end
         end
-    end)
-end
+    end
+end)
 
 mouse.Button1Down:Connect(function()
     local targetObj = mouse.Target
