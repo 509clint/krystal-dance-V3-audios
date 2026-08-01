@@ -1,4 +1,4 @@
---Clints Dancezzz V6.8
+--Clints Dancezzz V6.9
 
 local OWNER_TAG_PLAYERS = {
     ["Passhihihi_456"] = true,
@@ -503,6 +503,7 @@ local savedTimestamp = 0
 local activeDanceKey = nil
 local currentPage = 1
 local baseFOV = 70
+local audioDownloadToken = 0  -- increments each dance to cancel stale downloads
 local DANCE_WALKSPEEDS = {
     ["Griddy"] = 5,
     ["Mannrobics"] = 5,
@@ -720,24 +721,37 @@ end
 
 local function playDance(data, key)
     if isPlaying and activeDanceKey == key then stopAll() return end
-    local audioData = data
-    if data.isRandom then audioData = data.audios[math.random(1, #data.audios)] end
-    local songName = (data.isRandom and audioData.name) or data.musicName or "None"
-    notify("Clints Dancezzz", data.name .. " - " .. songName .. " [" .. key .. "]")
-    local char = lp.Character
-    local humanoid = char:FindFirstChildOfClass("Humanoid")
-    local animator = humanoid:FindFirstChildOfClass("Animator") or humanoid
-     if currentTrack then currentTrack:Stop() currentTrack:Destroy() currentTrack = nil end
+
+    -- Stop everything immediately before doing anything else
+    if currentTrack then currentTrack:Stop() currentTrack:Destroy() currentTrack = nil end
     if currentSound then currentSound:Stop() currentSound:Destroy() currentSound = nil end
+
+    -- Force-stop any active JSON playback and WAIT for it to actually finish
     if activeJsonPlayback then
         forceStopJsonPlayback = true
         local timeout = 0
         repeat task.wait(0.05) timeout += 0.05 until not activeJsonPlayback or timeout >= 1
     end
-    if char and char:FindFirstChild("Animate") then
+
+    -- Bump the token so any in-flight download from a previous dance becomes stale
+    audioDownloadToken += 1
+    local myToken = audioDownloadToken
+
+    local audioData = data
+    if data.isRandom then audioData = data.audios[math.random(1, #data.audios)] end
+    local songName = (data.isRandom and audioData.name) or data.musicName or "None"
+    notify("Clints Dancezzz", data.name .. " - " .. songName .. " [" .. key .. "]")
+
+    local char = lp.Character
+    local humanoid = char and char:FindFirstChildOfClass("Humanoid")
+    if not humanoid then return end
+    local animator = humanoid:FindFirstChildOfClass("Animator") or humanoid
+
+    if char:FindFirstChild("Animate") then
         char.Animate.Disabled = true
         for _, t in pairs(animator:GetPlayingAnimationTracks()) do t:Stop(0) end
     end
+
     task.wait(0.1)
 
     if audioData.url then
@@ -755,16 +769,27 @@ local function playDance(data, key)
         currentTrack.Priority = Enum.AnimationPriority.Action
         currentTrack.Looped = true
         currentTrack:Play()
-
         if data.animSpeed then currentTrack:AdjustSpeed(data.animSpeed) end
     end
+
     if audioData.url then
         task.spawn(function()
+            -- Download if needed
             if not isfile(audioData.file) then
                 local s, content = pcall(game.HttpGet, game, audioData.url:gsub(" ", "%%20"))
+                -- Check token: if it changed while we were downloading, this dance was replaced
+                if myToken ~= audioDownloadToken then return end
                 if s and #content > 1000 then writefile(audioData.file, content) end
             end
+
+            -- Check token again before playing
+            if myToken ~= audioDownloadToken then return end
+
             if isfile(audioData.file) then
+                -- One last guard: destroy any sound that snuck in
+                if currentSound then currentSound:Stop() currentSound:Destroy() currentSound = nil end
+                if myToken ~= audioDownloadToken then return end
+
                 currentSound = Instance.new("Sound")
                 currentSound.SoundId = getcustomasset(audioData.file)
                 currentSound.Volume = 1
@@ -775,6 +800,7 @@ local function playDance(data, key)
             end
         end)
     end
+
     local hum = lp.Character and lp.Character:FindFirstChildOfClass("Humanoid")
     if hum then hum.WalkSpeed = DANCE_WALKSPEEDS[data.name] or 16 end
     isPlaying = true
