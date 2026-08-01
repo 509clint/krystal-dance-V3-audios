@@ -89,7 +89,7 @@ Tab:CreateButton({
         end
 
         Rayfield:Notify({
-            Title = "your a nigger",
+            Title = "you are a nigger",
             Content = converted,
             Duration = 5
         })
