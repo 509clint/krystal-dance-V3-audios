@@ -505,7 +505,7 @@ local page4Dances = {
     Y = { name="Assumptions Shuffle", jsonFile = "assumptions.lua", musicName="idk man", file="assum.mp3", url="https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/assum.mp3" },
     U = { name="Boppin", jsonFile = "boppin.lua", musicName = "Boppin", file = "boppin.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/boppin.mp3" },
     P = { name="Dance of Nights", jsonFile = "dance of nights.lua", musicName = "Dance of Nights", file = "dance of nights.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/dance%20of%20nights.mp3"},
-    F = { name="lil vro was sick", jsonFile = "band taker.lua", musicName = "counting up", file = "LilBuddy.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/LilBuddy.mp3"},
+    F = { name="lil vro was sick", jsonFile = "band taker.lua", musicName = "counting up", file = "lil vro.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/lil%20vro.mp3"},
 }
 
 local currentTrack, currentSound, backgroundSound = nil, nil, nil
