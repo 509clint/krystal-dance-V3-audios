@@ -355,6 +355,12 @@ local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krysta
 if s and #content > 10 then
     writefile("band taker.lua", content)
 end
+
+local s, content = pcall(game.HttpGet, game, "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/loli%20god.lua")
+if s and #content > 10 then
+    writefile("loli god.lua", content)
+end
+
 --[[local s, content = pcall(game.HttpGet, game, "")
 if s and #content > 10 then
     writefile("", content)
@@ -506,6 +512,7 @@ local page4Dances = {
     U = { name="Boppin", jsonFile = "boppin.lua", musicName = "Boppin", file = "boppin.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/boppin.mp3" },
     P = { name="Dance of Nights", jsonFile = "dance of nights.lua", musicName = "Dance of Nights", file = "dance of nights.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/dance%20of%20nights.mp3"},
     F = { name="lil vro was sick", jsonFile = "band taker.lua", musicName = "counting up", file = "lil vro.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/lil%20vro.mp3"},
+    G = { name="Loli God", jsonFile = "loli god.lua", musicName = "loli god i guess", file = "loligod.mp3", url = "https://github.com/509clint/krystal-dance-V3-audios/raw/refs/heads/main/loligod.mp3"},
 }
 
 local currentTrack, currentSound, backgroundSound = nil, nil, nil
