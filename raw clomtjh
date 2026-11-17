@@ -64,7 +64,7 @@ Credit to
 --   3) Different houses? See rc-server README (one extra command).
 -- Leave as nil to use krulhub.dev (default).
 -- ============================================================
-local RC_SERVER = nil -- e.g. "https://abc-123.trycloudflare.com"
+local RC_SERVER = "http://192.168.1.251:8080" -- e.g. "http://192.168.1.251:8080/"
 do
 	local _g = (getgenv and getgenv()) or _G
 	if type(_g) == "table" and type(_g.RC_SERVER) == "string" and #_g.RC_SERVER > 8 then
@@ -33499,7 +33499,7 @@ function RoClothes(Player)
 				end
 			end)
 			while _isActiveSession() and System._sessionAlive ~= false do
-				task.wait(RC_SERVER and 0 or 1)
+				task.wait(1)
 				if AS.enabled then pcall(System._avsyncCloneTick) end
 			end
 			glide:Disconnect(); joinConn:Disconnect()
@@ -34163,10 +34163,6 @@ function RoClothes(Player)
 		System._avsWs.pollDelay = function()
 			local W, AS = System._avsWs, System.AvatarSync
 			local f = AS._pollFails or 0
-			if RC_SERVER then -- home server: no artificial delay, poll as fast as round-trips allow
-				if f == 0 and not AS._pollRetryAfter then return 0 end
-				return System._avsyncBackoff(f + 1, 0.5, 10)
-			end
 			local d = (f > 0) and System._avsyncBackoff(f + 1, W.POLL_S, W.MAX_S) or W.POLL_S
 			if AS._pollRetryAfter then d = math.max(d, AS._pollRetryAfter); AS._pollRetryAfter = nil end
 			return d
@@ -34331,7 +34327,6 @@ function RoClothes(Player)
 			W.epoch += 1
 			W.stopped, W.fails, W.forbid, W.hard = false, 0, 0, 0
 			W.mode = (not W.disabled and not RC_SERVER and AS.jobId ~= "" and #W.api() > 0) and "connecting" or "http"
-			if RC_SERVER then W.POLL_S = 0.5 end -- home server: sync every 0.5s instead of 3s
 			if W.mode == "http" then W.retryAt = os.clock() + W.RETRY_WS_S end
 			pcall(function()
 				local g = getgenv and getgenv()
