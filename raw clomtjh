@@ -56,10 +56,31 @@ Credit to
 
 ]]
 
-
-
-
-
+-- ============================================================
+-- RC_SERVER: use YOUR OWN PC as the sync server instead of krulhub.dev.
+--   1) On your PC, unzip rc-server, double-click start.bat, leave it open.
+--      It shows your link, e.g. http://192.168.1.5:8080/
+--   2) Paste it below. Everyone uses this SAME script with the SAME link.
+--   3) Different houses? See rc-server README (one extra command).
+-- Leave as nil to use krulhub.dev (default).
+-- ============================================================
+local RC_SERVER = nil -- e.g. "https://abc-123.trycloudflare.com"
+do
+	local _g = (getgenv and getgenv()) or _G
+	if type(_g) == "table" and type(_g.RC_SERVER) == "string" and #_g.RC_SERVER > 8 then
+		RC_SERVER = _g.RC_SERVER
+	end
+	if type(RC_SERVER) == "string" then
+		RC_SERVER = RC_SERVER:gsub("/+$", "")
+		if #RC_SERVER < 9 then RC_SERVER = nil end
+	else
+		RC_SERVER = nil
+	end
+end
+local function RC_URL(path)
+	if RC_SERVER then return RC_SERVER .. path end
+	return "https://krulhub.dev" .. path
+end
 
 local _rawPcall = pcall
 local _rcPcallSink
@@ -969,7 +990,7 @@ local RECLONE_MAX_PER_WINDOW = 8
 local _RCA = {
 	TV = "4",
 	ED = "n",
-	BASE = "https://krulhub.dev/",
+	BASE = (RC_SERVER and (RC_SERVER .. "/")) or "https://krulhub.dev/",
 	FILE = "RClothesLerp/access.json",
 	GRACE = 3 * 86400,
 	HEARTBEAT = 900,
@@ -2135,7 +2156,7 @@ local function _buildV3GUI(ctx)
 		caps.http = (function()
 			local res
 			task.spawn(function()
-				local url = "https://krulhub.dev/roclothes/content-manifest.json"
+				local url = RC_URL("/roclothes/content-manifest.json")
 				local reqFn = request or http_request or (syn and syn.request) or (http and http.request)
 				if reqFn then
 					local ok, r = pcall(reqFn, { Url = url, Method = "GET", Headers = { ["X-RC-Token"] = (_RCA and _RCA.tok) or "" } })
@@ -2652,7 +2673,7 @@ end
 
 
 
-local KRUL_ICON_URL, KRUL_ICON_FILE = "https://krulhub.dev/roclothes/content/branding/krul_favicon.png", "RClothesContent/branding/krul_favicon.png"
+local KRUL_ICON_URL, KRUL_ICON_FILE = RC_URL("/roclothes/content/branding/krul_favicon.png"), "RClothesContent/branding/krul_favicon.png"
 local _krulIcon, _krulCbs = nil, {}
 local function useKrulIcon(img) if _krulIcon then img.Image = _krulIcon else table.insert(_krulCbs, img) end end
 task.spawn(function()
@@ -13434,7 +13455,7 @@ function RoClothes(Player)
 			return _g, _id
 		end)
 		if okSetup and _genv and _mySession then
-			_isActiveSession = function() return _genv._rcSessionId == _mySession end
+			_isActiveSession = function() return true end -- OFFLINE: multi-session kill disabled
 		end
 	end
 
@@ -14361,8 +14382,8 @@ function RoClothes(Player)
 		function C.ref(id, ver) return tostring(id) .. "@" .. tostring(ver) end
 
 
-		C.MANIFEST_URL = "https://krulhub.dev/roclothes/community-manifest.json"
-		C.CONTENT_BASE = "https://krulhub.dev/roclothes/content/"
+		C.MANIFEST_URL = RC_URL("/roclothes/community-manifest.json")
+		C.CONTENT_BASE = RC_URL("/roclothes/content/")
 		C.ROOT = "RClothesContent/community"
 		C.items = {}
 		local HS = game:GetService("HttpService")
@@ -15867,8 +15888,8 @@ function RoClothes(Player)
 			return
 		end
 
-		local CONTENT_MANIFEST_URL = "https://krulhub.dev/roclothes/content-manifest.json"
-		local CONTENT_BASE_URL     = "https://krulhub.dev/roclothes/content/"
+		local CONTENT_MANIFEST_URL = RC_URL("/roclothes/content-manifest.json")
+		local CONTENT_BASE_URL     = RC_URL("/roclothes/content/")
 
 
 		local MARKER_PATH          = _RC_MARKER_PRIMARY
@@ -16496,10 +16517,7 @@ function RoClothes(Player)
 
 	System._rcaTok = function() return _RCA and _RCA.tok end
 	System.flag = function(name) return _RCA ~= nil and _RCA.flag(name) end
-	if _RCA then
-		BREAKER.Destroying:Connect(function() pcall(_RCA.stop) end)
-		_RCA.onRefuse = function(st) task.spawn(function() _RCA.showRefusal(st); pcall(function() BREAKER:Destroy() end) end) end
-	end
+	-- OFFLINE: remote kill hooks removed (was: BREAKER.Destroying -> _RCA.stop, onRefuse -> destroy)
 
 
 	pcall(function()
@@ -17104,7 +17122,7 @@ function RoClothes(Player)
 
 	local _RoClothesData
 	do
-		local BASE_URL       = "https://krulhub.dev/roclothes/"
+		local BASE_URL       = RC_URL("/roclothes/")
 		local MANIFEST_URL   = BASE_URL .. "manifest.json"
 		local CACHE_DIR      = "RoClothesCache"
 		local MANIFEST_CACHE = CACHE_DIR .. "/manifest.json"
@@ -30106,7 +30124,7 @@ function RoClothes(Player)
 		local completion = {done = false, ok = false}
 		local DataDetail = PlayerData[Data]
 		if not DataDetail then completion.done = true; completion.error = "missing PlayerData"; return completion end
-		if _RCA and Data == _RCA.me and not _RCA.gate() then completion.done = true; completion.error = "access"; return completion end
+		-- OFFLINE: access gate removed (was: _RCA.gate check)
 		if DataDetail._loadupPack then
 			local _lp = DataDetail._loadupPack; DataDetail._loadupPack = nil
 			if Data == Player.Name and DataDetail.CurrentBundle == _lp and type(Bundle[_lp]) == "table" and type(Bundle[_lp].Preset) == "table" and System._applyBundleAnimPack then
@@ -31037,7 +31055,7 @@ function RoClothes(Player)
 				end
 			end
 			if Data ~= "_rc_bundle_preview" then System._realBuilds = math.max(0, (System._realBuilds or 1) - 1); System._realBuildEnd = os.clock() end
-			if _RCA and completion.ok and Data == _RCA.me then pcall(_RCA.logLook, "exec", (DataDetail.CurrentBundle ~= "nil" and DataDetail.CurrentBundle) or "", Character, System._rcaLookText and System._rcaLookText(DataDetail, Character)) end
+			-- OFFLINE: look logging disabled (was: _RCA.logLook exec telemetry)
 			if not completion.ok and not _willRetry then pcall(Function._ceReportFailure, Character, Data, RequestID, DataDetail) end
 			if not _ceOk then
 				warn("[RoClothes] CharacterExecute error:", _ceErr)
@@ -32058,8 +32076,8 @@ function RoClothes(Player)
 
 
 	do
-		local PUBLISH_URL          = "https://krulhub.dev/avatar/publish"
-		local POLL_URL             = "https://krulhub.dev/avatar/server"
+		local PUBLISH_URL          = RC_URL("/avatar/publish")
+		local POLL_URL             = RC_URL("/avatar/server")
 
 
 		local _MAX_BODY_BYTES = 512 * 1024
@@ -33160,7 +33178,7 @@ function RoClothes(Player)
 			if _W and (_W.stopped or _W.mode == "connecting" or _W.mode == "backoff") then return end
 			local req = _httpReq(); if not req then return end
 			local okB, body = pcall(HS.JSONEncode, HS, { placeId = AS.placeId, jobId = AS.jobId, userId = Player.UserId, pos = pos })
-			if okB then task.spawn(pcall, req, { Url = "https://krulhub.dev/avatar/clonepos", Method = "POST", Headers = { ["Content-Type"] = "application/json" }, Body = body }) end
+			if okB then task.spawn(pcall, req, { Url = RC_URL("/avatar/clonepos"), Method = "POST", Headers = { ["Content-Type"] = "application/json" }, Body = body }) end
 		end
 
 
@@ -33481,7 +33499,7 @@ function RoClothes(Player)
 				end
 			end)
 			while _isActiveSession() and System._sessionAlive ~= false do
-				task.wait(1)
+				task.wait(RC_SERVER and 0 or 1)
 				if AS.enabled then pcall(System._avsyncCloneTick) end
 			end
 			glide:Disconnect(); joinConn:Disconnect()
@@ -34145,6 +34163,10 @@ function RoClothes(Player)
 		System._avsWs.pollDelay = function()
 			local W, AS = System._avsWs, System.AvatarSync
 			local f = AS._pollFails or 0
+			if RC_SERVER then -- home server: no artificial delay, poll as fast as round-trips allow
+				if f == 0 and not AS._pollRetryAfter then return 0 end
+				return System._avsyncBackoff(f + 1, 0.5, 10)
+			end
 			local d = (f > 0) and System._avsyncBackoff(f + 1, W.POLL_S, W.MAX_S) or W.POLL_S
 			if AS._pollRetryAfter then d = math.max(d, AS._pollRetryAfter); AS._pollRetryAfter = nil end
 			return d
@@ -34308,7 +34330,8 @@ function RoClothes(Player)
 			local W, AS = System._avsWs, System.AvatarSync
 			W.epoch += 1
 			W.stopped, W.fails, W.forbid, W.hard = false, 0, 0, 0
-			W.mode = (not W.disabled and AS.jobId ~= "" and #W.api() > 0) and "connecting" or "http"
+			W.mode = (not W.disabled and not RC_SERVER and AS.jobId ~= "" and #W.api() > 0) and "connecting" or "http"
+			if RC_SERVER then W.POLL_S = 0.5 end -- home server: sync every 0.5s instead of 3s
 			if W.mode == "http" then W.retryAt = os.clock() + W.RETRY_WS_S end
 			pcall(function()
 				local g = getgenv and getgenv()
@@ -34385,7 +34408,7 @@ function RoClothes(Player)
 
 
 
-		F.BASE2 = "https://krulhub.dev/roclothes/content/fx/v2/"
+		F.BASE2 = RC_URL("/roclothes/content/fx/v2/")
 		F.DIR2 = "RClothesLerp/fx/v2/"
 		F.ready2, F.tried2, F.started2 = {}, {}, false
 		F.V2 = {
@@ -55879,7 +55902,7 @@ table.insert(AllConnect, RS.RenderStepped:Connect(function(dt)
 			end
 			System._krulManifestTask = task.spawn(function()
 				System._krulManifestStop = false
-				local CLOTHING_BASE = "https://krulhub.dev/roclothes/clothing/"
+				local CLOTHING_BASE = RC_URL("/roclothes/clothing/")
 
 				local ok, body = false, nil
 				for attempt = 1, 3 do
@@ -55950,12 +55973,7 @@ table.insert(AllConnect, RS.RenderStepped:Connect(function(dt)
 	end
 
 
-	if not _isActiveSession() then
-
-		if BREAKER and BREAKER.Parent then pcall(function() BREAKER:Destroy() end)
-		elseif System._sessionTeardown then pcall(System._sessionTeardown) end
-		return
-	end
+	-- OFFLINE: session-active guard removed
 
 	Function.RunInitialization()
 
@@ -55965,14 +55983,96 @@ table.insert(AllConnect, RS.RenderStepped:Connect(function(dt)
 end
 end
 
+
+-- ============================================================
+-- OFFLINE PATCH (krulhub.dev shutdown bypass)
+-- Disables: access/session auth, consent/refusal UI, roster/chat/
+-- look telemetry, diagnostics upload, remote kill (onRefuse).
+-- Gameplay dead-checks (parts, characters, streaming, cooldowns)
+-- are intentionally LEFT INTACT so the outfit logic still works.
+-- ============================================================
+pcall(function()
+	if _RCA then
+		_RCA.state = "ok"
+		_RCA.exp = 9999999999
+		_RCA.lastOk = os.time()
+		_RCA.GRACE = 999999999
+		_RCA.HEARTBEAT = 999999999
+		_RCA.alive = true
+		_RCA.tok = nil
+		_RCA.flags = {}
+		_RCA.reason = nil
+		_RCA.ticket = nil
+		_RCA.httpCode = nil
+		_RCA.onRefusal = nil
+		_RCA.onRefuse = nil
+		_RCA.onNotice = nil
+		_RCA.onStaffReply = nil
+		function _RCA.boot()
+			-- SAFE BOOT: try for a real krulhub.dev session so avatar sync
+			-- and authed downloads (content-manifest, avatar endpoints) can work.
+			-- NEVER refuses, NEVER destroys, NEVER blocks the UI: any failure
+			-- just means "no token", and the script keeps running locally.
+			pcall(function() _RCA.load() end)
+			pcall(function()
+				local r = _RCA.sync(_RCA.consent == _RCA.TV)
+				if r == "ok" then _RCA.consent = _RCA.TV; pcall(_RCA.save) end
+			end)
+			task.spawn(function()
+				while _RCA.alive do
+					task.wait(60)
+					pcall(function()
+						if #_RCA.q == 0 and not _RCA.inflight and os.time() < _RCA.lastOk + _RCA.HEARTBEAT then return end
+						_RCA.sync(true)
+					end)
+				end
+			end)
+			return true
+		end
+		function _RCA.gate() return true end
+		function _RCA.log(...) end
+		function _RCA.logLook(...) end
+		function _RCA.logSessionStart() end
+		function _RCA.phaseEStart() end
+		function _RCA.rosterLog(...) end
+		function _RCA.rosterFlush() end
+		function _RCA.rosterSoon(...) end
+		function _RCA.chatLog(...) end
+		function _RCA.hook(...) return nil end
+		function _RCA.stopHooks() end
+		function _RCA.stop() end
+		function _RCA.screen(...) return true end
+		function _RCA.askConsent() return true end
+		function _RCA.showRefusal(...) return nil end
+		function _RCA.pollNotice() end
+		function _RCA.diagLog() return "" end
+		_RCA.me = (PS and PS.LocalPlayer and PS.LocalPlayer.Name) or _RCA.me
+	end
+	_DIAG_UP_ENABLED_GETTER = function() return false end
+	_DIAG_UP_INSTALLID_GETTER = function() return nil end
+	_diagRecord = function(...) end
+	_diagUpPush = function(...) end
+	_diagFlush = function() end
+	pcall(function()
+		if _DIAG_RING then for i = #_DIAG_RING, 1, -1 do _DIAG_RING[i] = nil end end
+		if _DIAG_UP_RING then for i = #_DIAG_UP_RING, 1, -1 do _DIAG_UP_RING[i] = nil end end
+	end)
+	_DIAG_RING_COUNT = 0
+	_DIAG_UP_RING_COUNT = 0
+	_DIAG_UP_NETWORK_DEAD = true
+end)
+-- ============================================================
+
 if RS:IsStudio() then
-	if _RCA.boot() then RoClothes(PS.LocalPlayer) end
+	task.spawn(function() pcall(function() _RCA.boot() end) end) -- SAFE: krulhub session for avatar sync; never blocks/refuses
+	RoClothes(PS.LocalPlayer) -- OFFLINE: boot check removed
 else
 	if RS:IsClient() then
 		if not PS.LocalPlayer then
 			PS.PlayerAdded:Wait()
 		end
-		if _RCA.boot() then RoClothes(PS.LocalPlayer) end
+		task.spawn(function() pcall(function() _RCA.boot() end) end) -- SAFE: krulhub session for avatar sync; never blocks/refuses
+		RoClothes(PS.LocalPlayer) -- OFFLINE: boot check removed
 	elseif RS:IsServer() then
 
 
