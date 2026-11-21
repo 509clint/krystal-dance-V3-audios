@@ -93,7 +93,7 @@ local _RC_VER_DATE = "2026-11-14"
 --     3) old backend (dead, sync stays off).
 -- ============================================================
 local RC_CONTENT_BASE = "https://d454498c.roclothes-content.pages.dev" -- no trailing slash
-local RC_SYNC_BASE_DEFAULT = "" -- e.g. "https://xxxx.trycloudflare.com" (no trailing slash); empty = old backend
+local RC_SYNC_BASE_DEFAULT = "https://investment-universities-bibliographic-dramatically.trycloudflare.com" -- your relay; updated when the tunnel URL changes (getgenv override wins)
 local _rcG = (getgenv and getgenv()) or {}
 local _rcGovr = (type(_rcG.RC_SYNC_BASE) == "string" and _rcG.RC_SYNC_BASE:gsub("%s+", "")) or ""
 local RC_SYNC_BASE = (_rcGovr ~= "" and _rcGovr) or (RC_SYNC_BASE_DEFAULT ~= "" and RC_SYNC_BASE_DEFAULT) or "https://krulhub.dev"
